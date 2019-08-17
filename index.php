@@ -24,10 +24,11 @@ file_put_contents('bindata.txt', $bindata);
 //convert binary data into base64
 $data = file_get_contents("bindata.txt");
 $cb64 = binaryToString($data);
+file_put_contents('final_base64.txt', $cb64);
 
 //convert base64 back to doc
-
-
+base64_to_doc('final_base64.txt', 'gen_word.doc');
+echo "All files successfully generated!!!";
 /**
  * @param $string
  * @return string
