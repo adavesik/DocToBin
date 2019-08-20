@@ -39,13 +39,13 @@
                     <div>
                         <h6 class="my-0">Temporary b64 file</h6>
                     </div>
-                    <span class="text-muted"><?php echo $employeedepartment; ?></span>
+                    <span class="text-muted" id="tmp_b64"></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
                         <h6 class="my-0">Binary file</h6>
                     </div>
-                    <span class="text-muted"><?php echo $id; ?></span>
+                    <span class="text-muted" id="binary"></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
@@ -57,7 +57,7 @@
                     <div>
                         <h6 class="my-0">New Word file</h6>
                     </div>
-                    <span class="text-muted"><?php echo $make; ?></span>
+                    <span class="text-muted" id="final_doc"></span>
                 </li>
             </ul>
         </div>
@@ -117,7 +117,7 @@
             e.preventDefault();
             $.ajax({
                 type: 'POST',
-                url: 'upload.php',
+                url: 'new_upload.php',
                 data: new FormData(this),
                 contentType: false,
                 cache: false,
@@ -132,7 +132,14 @@
                     var jsonData = JSON.parse(data);
 
                     $('#orig_name').empty();
+                    $('#binary').empty();
+                    $('#final_doc').empty();
+                    $('#tmp_b64').empty();
+
                     $('#orig_name').append("<a href='"+jsonData.input_file+"'>"+jsonData.only_name+"</a>");
+                    $('#binary').append("<a href='"+jsonData.binary+"'>Binary file</a>");
+                    $('#final_doc').append("<a href='"+jsonData.final_doc+"'>New DOC file</a>");
+                    $('#tmp_b64').append("<a href='"+jsonData.tmp_b64+"'>Temporary base64 file</a>");
 
                     $('#fupForm').css("opacity","");
                     $(".submitBtn").removeAttr("disabled");

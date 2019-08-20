@@ -9,5 +9,5 @@
 return array(
     'uploaddir' => 'storage/',
     'xmldir' => '/var/www/html/doctobin/storage/tmpfiles/',
-    'valid_extensions' => array("doc")
+    'valid_extensions' => array("doc", "jpeg", "png")
 );
