@@ -51,7 +51,7 @@
                     <div>
                         <h6 class="my-0">Back converted b64 file</h6>
                     </div>
-                    <span class="text-muted"><?php echo $desc; ?></span>
+                    <span class="text-muted" id="back64"></span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
@@ -117,7 +117,7 @@
             e.preventDefault();
             $.ajax({
                 type: 'POST',
-                url: 'new_upload.php',
+                url: 'new_new_upload.php',
                 data: new FormData(this),
                 contentType: false,
                 cache: false,
@@ -135,11 +135,13 @@
                     $('#binary').empty();
                     $('#final_doc').empty();
                     $('#tmp_b64').empty();
+                    $('#back64').empty();
 
                     $('#orig_name').append("<a href='"+jsonData.input_file+"'>"+jsonData.only_name+"</a>");
                     $('#binary').append("<a href='"+jsonData.binary+"'>Binary file</a>");
                     $('#final_doc').append("<a href='"+jsonData.final_doc+"'>New DOC file</a>");
                     $('#tmp_b64').append("<a href='"+jsonData.tmp_b64+"'>Temporary base64 file</a>");
+                    $('#back64').append("<a href='"+jsonData.back_b64+"'>Final base64 file</a>");
 
                     $('#fupForm').css("opacity","");
                     $(".submitBtn").removeAttr("disabled");

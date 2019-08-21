@@ -1,17 +1,13 @@
 <?php
 
 
-abstract class Converter
+class HelperClass
 {
-    abstract public function FileToBinary($fileName);
-    abstract public function BinaryToFile($fileName);
-    abstract public function Base64ToFile($inputfile, $outputfile);
-
     /**
      * @param $string
      * @return string
      */
-    protected function stringToBinary($string)
+    public static function stringToBinary($string)
     {
         $characters = str_split($string);
 
@@ -28,7 +24,7 @@ abstract class Converter
      * @param $binary
      * @return string|null
      */
-    protected function binaryToString($binary)
+    public static function binaryToString($binary)
     {
         $binaries = explode(' ', $binary);
 
@@ -38,5 +34,20 @@ abstract class Converter
         }
 
         return $string;
+    }
+
+
+    /* Generates random filename and extension */
+    public static function tempnam_sfx($path, $suffix){
+
+        if(!is_dir($path)){
+            mkdir($path, 0777, true);
+        }
+
+        do {
+            $file = $path . DIRECTORY_SEPARATOR . mt_rand () . $suffix;
+        } while (file_exists($file));
+
+        return $file;
     }
 }
