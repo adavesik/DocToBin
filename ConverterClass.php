@@ -8,6 +8,9 @@ class ConverterClass
 
     private $fileName;
     private $convertedDir;
+    public $base64dir = "storage/base64/";
+
+    public $space = true;
 
 
     public function __construct()
@@ -51,7 +54,7 @@ class ConverterClass
         $b64content = file_get_contents($this->convertedDir."temp.txt");
 
         //convert base64 to binary
-        $bindata = HelperClass::stringToBinary($b64content);
+        $bindata = HelperClass::stringToBinary($b64content, $this->space);
         file_put_contents($this->convertedDir."bindata.txt", $bindata);
     }
 
@@ -59,17 +62,15 @@ class ConverterClass
     {
 
         //convert binary data into base64
-        $data = file_get_contents("$this->convertedDir.$fileName");
-        $cb64 = HelperClass::binaryToString($data);
+        $data = file_get_contents($this->convertedDir.$fileName);
+
+        $cb64 = HelperClass::binaryToString($data, $this->space);
+
         file_put_contents($this->convertedDir."final_base64.txt", $cb64);
     }
 
     public function Base64ToFile($inputfile, $outputfile)
     {
-        //convert binary data into base64
-        $data = file_get_contents($this->convertedDir."bindata.txt");
-        $cb64 = HelperClass::binaryToString($data);
-        file_put_contents($this->convertedDir."final_base64.txt", $cb64);
 
         /* read data (binary) */
         $ifp = fopen( $inputfile, "rb" );

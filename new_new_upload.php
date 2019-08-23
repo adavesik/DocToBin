@@ -16,6 +16,7 @@ if($uploader->uploadFile('file')){               //txtFile is the filebrowse ele
 
     $docFile->setConvertedDir('storage/converted/');
     $docFile->setFileName("storage/$document");
+    $docFile->space = false;
     $fileName = $docFile->getFileName();
 
     //var_dump($fileName);
@@ -23,8 +24,8 @@ if($uploader->uploadFile('file')){               //txtFile is the filebrowse ele
     $docFile->BinaryToBase64("bindata.txt");
     $docFile->Base64ToFile('storage/converted/final_base64.txt', 'storage/converted/gen_'.$document);
 
-    echo json_encode(['input_file'=>"/doc2bin/storage/".$document, 'only_name'=>$document, 'binary'=>"/doc2bin/storage/converted/bindata.txt", 'tmp_b64'=>"/doc2bin/storage/converted/temp.txt", 'back_b64'=>"/doc2bin/storage/converted/final_base64.txt",
-        'final_doc'=>"/doc2bin/storage/converted/gen_".$document]);
+    echo json_encode(['input_file'=>"/doctobin/storage/".$document, 'only_name'=>$document, 'binary'=>"/doctobin/storage/converted/bindata.txt", 'tmp_b64'=>"/doctobin/storage/converted/temp.txt", 'back_b64'=>"/doctobin/storage/converted/final_base64.txt",
+        'final_doc'=>"/doctobin/storage/converted/gen_".$document]);
 
 
 }else{//upload failed
