@@ -8,8 +8,7 @@ $uploader = new UploaderClass();
 
 $uploader->setDir($configs['uploaddir']);
 $uploader->allowAllFormats();
-//$uploader->setExtensions(array('jpg','jpeg','png','gif', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'txt'));  //allowed extensions list
-$uploader->setMaxSize(15);                         //set max file size to be allowed in MB//
+$uploader->setMaxSize(300);                         //set max file size to be allowed in MB//
 
 if($uploader->uploadFile('file')){               //txtFile is the filebrowse element name //
     $document  =   $uploader->getUploadName();             //get uploaded file name, renames on upload//
