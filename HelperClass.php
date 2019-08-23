@@ -17,7 +17,7 @@ class HelperClass
             $binary[] = base_convert($data[1], 16, 2);
         }
 
-        return implode(' ', $binary);
+        return implode('', $binary);
     }
 
     /**
