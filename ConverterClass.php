@@ -59,7 +59,7 @@ class ConverterClass
     {
 
         //convert binary data into base64
-        $data = file_get_contents("$this->convertedDir.$fileName");
+        $data = file_get_contents($this->convertedDir.$fileName);
         $cb64 = HelperClass::binaryToString($data);
         file_put_contents($this->convertedDir."final_base64.txt", $cb64);
     }
