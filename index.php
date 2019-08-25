@@ -35,30 +35,30 @@
                     </div>
                     <span class="text-muted" id="orig_name"></span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
+<!--                <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
                         <h6 class="my-0">Temporary b64 file</h6>
                     </div>
                     <span class="text-muted" id="tmp_b64"></span>
-                </li>
+                </li>-->
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
                         <h6 class="my-0">Binary file</h6>
                     </div>
                     <span class="text-muted" id="binary"></span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
+<!--                <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
                         <h6 class="my-0">Back converted b64 file</h6>
                     </div>
                     <span class="text-muted" id="back64"></span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                </li>-->
+<!--                <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
                         <h6 class="my-0">New Word file</h6>
                     </div>
                     <span class="text-muted" id="final_doc"></span>
-                </li>
+                </li>-->
             </ul>
         </div>
         <div class="col-md-8 order-md-1">
@@ -73,6 +73,62 @@
                 <input type="submit" name="submit" class="btn btn-danger submitBtn" value="Submit"/>
             </form>
         </div>
+    </div>
+
+    <hr>
+    <hr>
+
+
+    <div class="py-5 text-center">
+        <h2 style="color: #007bff">Binary data form</h2>
+        <p class="lead">Below is an example form built for converting binary files.</p>
+    </div>
+
+    <div class="row" id="binary">
+
+        <div class="col-md-8 order-md-1">
+            <p class="statusMsg"></p>
+            <form enctype="multipart/form-data" id="binaryform" >
+                <hr class="mb-4">
+                <div class="form-group">
+                    <label for="file">Binary File</label>
+                    <input type="file" class="form-control" id="file" name="binaryfile" required />
+                </div>
+
+                <select class="custom-select" id="ext" name="ext">
+                    <option value="" selected>Please select original file extension</option>
+                    <option value=".doc"> .doc </option>
+                    <option value=".docx"> .docx </option>
+                    <option value=".pdf"> .pdf </option>
+                    <option value=".png"> .png </option>
+                    <option value=".jpg"> .jpg </option>
+                    <option value=".txt"> .txt </option>
+                    <option value=".xls"> .xls </option>
+                    <option value=".xlsx"> .xlsx </option>
+                    <option value=".gif"> .gif </option>
+                    <option value=".ppt"> .ppt </option>
+                    <option value=".pptx"> .pptx </option>
+                </select>
+
+                <hr class="mb-4">
+                <input type="submit" name="submit" class="btn btn-danger submitBtn" value="Submit"/>
+            </form>
+        </div>
+
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Converted files</span>
+            </h4>
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 class="my-0">Back file</h6>
+                    </div>
+                    <span class="text-muted" id="back_name"></span>
+                </li>
+            </ul>
+        </div>
+
     </div>
 
     <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -139,28 +195,52 @@
 
                     $('#orig_name').append("<a href='"+jsonData.input_file+"' target=\"_blank\">"+jsonData.only_name+"</a>");
                     $('#binary').append("<a href='"+jsonData.binary+"' target=\"_blank\">Binary file</a>");
-                    $('#final_doc').append("<a href='"+jsonData.final_doc+"' target=\"_blank\">New DOC file</a>");
-                    $('#tmp_b64').append("<a href='"+jsonData.tmp_b64+"' target=\"_blank\">Temporary base64 file</a>");
-                    $('#back64').append("<a href='"+jsonData.back_b64+"' target=\"_blank\">Final base64 file</a>");
+                    //$('#final_doc').append("<a href='"+jsonData.final_doc+"' target=\"_blank\">New DOC file</a>");
+                    //$('#tmp_b64').append("<a href='"+jsonData.tmp_b64+"' target=\"_blank\">Temporary base64 file</a>");
+                    //$('#back64').append("<a href='"+jsonData.back_b64+"' target=\"_blank\">Final base64 file</a>");
 
                     $('#fupForm').css("opacity","");
                     $(".submitBtn").removeAttr("disabled");
                 }
             });
         });
+    });
+</script>
 
-        /*            //file type validation
-                    $("#file").change(function() {
-                        var file = this.files[0];
-                        var imagefile = file.type;
-                        console.log(file);
-                        var match= ["image/jpeg","image/png","image/jpg"];
-                        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
-                            alert('Please select a valid image file (JPEG/JPG/PNG).');
-                            $("#file").val('');
-                            return false;
-                        }
-                    });*/
+
+
+
+
+
+<script>
+    $(document).ready(function(e){
+        $("#binaryform").on('submit', function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'binary_upload.php',
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                beforeSend: function(){
+                    $('.submitBtn').attr("disabled","disabled");
+                    $('#binaryform').css("opacity",".5");
+                },
+                success: function(data){
+                    $('.statusMsg').html('');
+
+                    var jsonData = JSON.parse(data);
+
+                    $('#back_name').empty();
+
+                    $('#back_name').append("<a href='"+jsonData.final_doc+"' target=\"_blank\">Back-converted file</a>");
+
+                    $('#binaryform').css("opacity","");
+                    $(".submitBtn").removeAttr("disabled");
+                }
+            });
+        });
     });
 </script>
 
