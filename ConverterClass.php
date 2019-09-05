@@ -44,7 +44,17 @@ class ConverterClass
 
     public function FileToBinary($fileName)
     {
-        $image_data=file_get_contents($fileName);
+        $image_data = '';
+        $bindata = '';
+        $lines = file($fileName);
+
+        foreach ($lines as $line){
+            $bindata .= HelperClass::stringToBinary($line, $this->space);
+            $image_data.=$line;
+        }
+
+        /*$image_data=file_get_contents($fileName);
+        preg_split("/\R/", $image_data, -1, PREG_SPLIT_NO_EMPTY);*/
 
         //$encoded_image=base64_encode($image_data);
         file_put_contents($this->convertedDir."temp.txt", $image_data);
@@ -54,7 +64,7 @@ class ConverterClass
         //$b64content = file_get_contents($this->convertedDir."temp.txt");
 
         //convert base64 to binary
-        $bindata = HelperClass::stringToBinary($image_data, $this->space);
+
 
         file_put_contents($this->convertedDir."bindata.txt", $bindata);
 
@@ -66,7 +76,9 @@ class ConverterClass
         //convert binary data into base64
         $data = file_get_contents($this->convertedDir.$fileName);
 
-        $cb64 = HelperClass::binaryToString($data, $this->space);
+        $cb64 = HelperClass::bin2text($data, $this->space);
+
+        $cb64 = rtrim($cb64);
 
         file_put_contents($this->convertedDir."final_base64.txt", $cb64);
     }

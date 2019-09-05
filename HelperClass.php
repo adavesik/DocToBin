@@ -2,13 +2,47 @@
 
 class HelperClass
 {
+
+    public static function str_split_unicode($str, $l = 0) {
+        if ($l > 0) {
+            $ret = array();
+            $len = mb_strlen($str, "UTF-8");
+            for ($i = 0; $i < $len; $i += $l) {
+                $ret[] = mb_substr($str, $i, $l, "UTF-8");
+            }
+            return $ret;
+        }
+        return preg_split("/\R/", $str, -1, PREG_SPLIT_NO_EMPTY);
+    }
+
+
+    public static function bin2text( $bin )
+    {
+
+        $text = '';
+        # valid binary string, split, explode and other magic
+        # prepare string for conversion
+        $chars = explode( "\n", chunk_split( str_replace( "\n", '', $bin ), 8 ) );
+        $char_count = count( $chars );
+
+        # converting the characters one by one
+        for( $i = 0; $i < $char_count; $text .= chr( bindec( $chars[$i] ) ), $i++ );
+
+        # let's return the result
+        return $text;
+
+    }
+
+
     /**
      * @param $string
      * @return string
      */
     public static function stringToBinary($string, $space = true)
     {
-        $characters = str_split($string);
+        $characters = HelperClass::str_split_unicode($string, 1);
+
+        //var_dump($characters);
 
         $binary = [];
         foreach ($characters as $character) {
@@ -61,7 +95,11 @@ class HelperClass
     public static function binaryToString($binary, $is_spaced = true)
     {
         if(!$is_spaced){
-            $binaries = substr(chunk_split($binary, 8, ' '),0);
+
+            $un_trimmed = chunk_split($binary, 8, ' ');
+            $trimmed = rtrim($un_trimmed);
+
+            $binaries = substr($trimmed,0);
             $binaries = explode(' ', $binaries);
         }
         else{

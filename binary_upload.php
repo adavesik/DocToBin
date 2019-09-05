@@ -10,7 +10,7 @@ $uploader = new UploaderClass();
 $uploader->setDir($configs['uploaddir']);
 //$uploader->allowAllFormats();
 $uploader->setExtensions(array('txt'));                    //allowed extensions list
-$uploader->setMaxSize(90);                         //set max file size to be allowed in MB//
+$uploader->setMaxSize(125);                         //set max file size to be allowed in MB//
 
 $fileExtension = $_POST['ext'];
 if(empty($fileExtension))
@@ -34,8 +34,8 @@ if($uploader->uploadFile('binaryfile')){         //txtFile is the filebrowse ele
     rename('storage/final_base64.txt', 'storage/converted/generatedFile'.$fileExtension);
     //$docFile->Base64ToFile('storage/final_base64.txt', 'storage/converted/generatedFile'.$fileExtension);
 
-    echo json_encode(['input_file'=>"/doctobin/storage/".$document, 'only_name'=>$document, 'binary'=>"/doctobin/storage/converted/bindata.txt", 'tmp_b64'=>"/doctobin/storage/converted/temp.txt", 'back_b64'=>"/doctobin/storage/converted/final_base64.txt",
-        'final_doc'=>"/doctobin/storage/converted/generatedFile".$fileExtension]);
+    echo json_encode(['input_file'=>"/doc2bin/storage/".$document, 'only_name'=>$document, 'binary'=>"/doc2bin/storage/converted/bindata.txt", 'tmp_b64'=>"/doc2bin/storage/converted/temp.txt", 'back_b64'=>"/doc2bin/storage/converted/final_base64.txt",
+        'final_doc'=>"/doc2bin/storage/converted/generatedFile".$fileExtension]);
 
 
 }else{//upload failed
