@@ -1,6 +1,7 @@
 <?php
 
 require_once 'HelperClass.php';
+require_once 'BigFile.php';
 
 
 class ConverterClass
@@ -8,7 +9,6 @@ class ConverterClass
 
     private $fileName;
     private $convertedDir;
-    public $base64dir = "storage/base64/";
 
     public $space = true;
 
@@ -42,37 +42,42 @@ class ConverterClass
         return $this->fileName;
     }
 
+
     public function FileToBinary($fileName)
     {
         $image_data = '';
         $bindata = '';
-        $lines = file($fileName);
 
-        foreach ($lines as $line){
+        try {
+            $largefile = new BigFile($fileName);
+        } catch (Exception $e) {
+        }
+
+        $iterator = $largefile->iterate("Text"); // Text or Binary based on your file type
+
+        foreach ($iterator as $line) {
             $bindata .= HelperClass::stringToBinary($line, $this->space);
             $image_data.=$line;
         }
 
-        /*$image_data=file_get_contents($fileName);
-        preg_split("/\R/", $image_data, -1, PREG_SPLIT_NO_EMPTY);*/
-
-        //$encoded_image=base64_encode($image_data);
+        //uploaded file raw data just for a temporary file
         file_put_contents($this->convertedDir."temp.txt", $image_data);
 
-        //now we need to convert base64 string which is in temp.txt to binary file
-        //get temp.txt file content
-        //$b64content = file_get_contents($this->convertedDir."temp.txt");
-
-        //convert base64 to binary
-
-
+        //save binary data
         file_put_contents($this->convertedDir."bindata.txt", $bindata);
 
     }
 
-    public function BinaryToBase64($fileName)
-    {
 
+    public function BinCount($fileName){
+
+        return HelperClass::getBinaryCharCount($fileName);
+    }
+
+
+
+    public function BinaryToFile($fileName)
+    {
         //convert binary data into base64
         $data = file_get_contents($this->convertedDir.$fileName);
 
@@ -80,7 +85,7 @@ class ConverterClass
 
         $cb64 = rtrim($cb64);
 
-        file_put_contents($this->convertedDir."final_base64.txt", $cb64);
+        file_put_contents($this->convertedDir."back_file_raw.txt", $cb64);
     }
 
     public function Base64ToFile($inputfile, $outputfile)
@@ -97,7 +102,5 @@ class ConverterClass
         /* return output filename */
         return( $outputfile );
     }
-
-
 
 }

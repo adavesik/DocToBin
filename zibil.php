@@ -1,4 +1,5 @@
 <?php
+require_once "BigFile.php";
 
 function stringToBinary($string)
 {
@@ -67,7 +68,7 @@ $trimmed = rtrim($un_trimmed);
 $binaries = substr($trimmed,0);
 $binaries = explode(' ', $binaries);
 
-var_dump($binaries);
+//var_dump($binaries);
 
 /*foreach ($binaries as $bin) {
     echo "Binary is: ".$bin;
@@ -82,5 +83,16 @@ var_dump($binaries);
 
 echo "<pre>";
 //echo pack('H*', '2e');
-echo "Encoded is: ".bin2text($binary);
+//echo "Encoded is: ".bin2text($binary);
 
+
+
+$largefile = new BigFile("CV.pdf");
+
+$iterator = $largefile->iterate("Text"); // Text or Binary based on your file type
+
+foreach ($iterator as $line) {
+
+    echo $line;
+
+}

@@ -42,8 +42,6 @@ class HelperClass
     {
         $characters = HelperClass::str_split_unicode($string, 1);
 
-        //var_dump($characters);
-
         $binary = [];
         foreach ($characters as $character) {
             $data = unpack('H*', $character);
@@ -130,7 +128,15 @@ class HelperClass
     }
 
 
-    public function fillUpBinaryData($binary){
+    public function fillUpBinaryData($filename){
 
+    }
+
+    public static function getBinaryCharCount($filename){
+
+        $string = file_get_contents($filename);
+
+        $characters = HelperClass::str_split_unicode($string, 1);
+        return sizeof($characters);
     }
 }
