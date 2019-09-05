@@ -69,8 +69,8 @@ class HelperClass
         }
 
         $string = null;
-        foreach ($binaries as $binary) {
-            $string .= pack('H*', dechex(bindec($binary)));
+        foreach ($binaries as $bin) {
+            $string .= pack('H*', base_convert($bin, 2, 16));
         }
 
         return $string;
@@ -89,5 +89,10 @@ class HelperClass
         } while (file_exists($file));
 
         return $file;
+    }
+
+
+    public function fillUpBinaryData($binary){
+
     }
 }
