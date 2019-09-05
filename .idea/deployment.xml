@@ -47,7 +47,7 @@
       <paths name="TestForAll">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$" web="/doc2bin/" />
+            <mapping deploy="/doc2bin" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
