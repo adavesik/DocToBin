@@ -96,3 +96,5 @@ foreach ($iterator as $line) {
     echo $line;
 
 }
+
+echo 00000001 << 1;
