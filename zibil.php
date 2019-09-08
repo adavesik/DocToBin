@@ -1,5 +1,6 @@
 <?php
 require_once "BigFile.php";
+require_once "UserKey.php";
 
 function stringToBinary($string)
 {
@@ -87,14 +88,17 @@ echo "<pre>";
 
 
 
-$largefile = new BigFile("CV.pdf");
+$largefile = new BigFile("strands/0-2019-08-03.txt");
 
 $iterator = $largefile->iterate("Text"); // Text or Binary based on your file type
 
 foreach ($iterator as $line) {
 
-    echo $line;
+    //echo strlen($line);
 
 }
 
-echo 00000001 << 1;
+$uk = new UserKey("CAT");
+$key = $uk->getUserKey();
+echo $key."<pre>";
+print_r($uk->convertToBinary($key));
