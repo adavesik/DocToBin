@@ -20,9 +20,9 @@ if($uploader->uploadFile('file')){               //txtFile is the filebrowse ele
     $fileName = $docFile->getFileName();
 
     $docFile->FileToBinary($fileName);
-    $c = $docFile->BinCount($fileName);
+    //$c = $docFile->BinCount($fileName);
 
-    echo json_encode(['input_file'=>"/doc2bin/storage/".$document, 'only_name'=>$c, 'binary'=>"/doc2bin/storage/converted/bindata.txt", 'tmp_b64'=>"/doc2bin/storage/converted/temp.txt", 'back_b64'=>"/doc2bin/storage/converted/final_base64.txt",
+    echo json_encode(['input_file'=>"/doc2bin/storage/".$document, 'only_name'=>$fileName, 'binary'=>"/doc2bin/storage/converted/bindata.txt", 'tmp_b64'=>"/doc2bin/storage/converted/temp.txt", 'back_b64'=>"/doc2bin/storage/converted/final_base64.txt",
         'final_doc'=>"/doc2bin/storage/converted/gen_".$document]);
 
 

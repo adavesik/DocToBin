@@ -24,7 +24,7 @@ class BigFile
 
             $count++;
         }
-        return $count;
+        //return $count;
     }
 
     protected function iterateBinary($bytes)

@@ -98,7 +98,7 @@ foreach ($iterator as $line) {
 
 }
 
-$uk = new UserKey("CAT");
+$uk = new UserKey("z");
 $key = $uk->getUserKey();
 echo $key."<pre>";
 print_r($uk->convertToBinary($key));
