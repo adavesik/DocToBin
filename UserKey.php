@@ -3,6 +3,8 @@ require_once "HelperClass.php";
 
 class UserKey
 {
+    const EXPAND_LEN = 67108864; //pow(2, 26)
+
     private $userkey;
 
     private $encodingTable = array(
@@ -75,13 +77,13 @@ class UserKey
 
     public function __construct($userkey)
     {
-        $this->setUserkey($userkey);
+        $this->setUserKey($userkey);
     }
 
     /**
      * @param mixed $userkey
      */
-    protected function setUserkey($userkey)
+    protected function setUserKey($userkey)
     {
         if (FALSE === $this->validateUserKey($userkey)) {
             throw new InvalidArgumentException(
@@ -112,31 +114,29 @@ class UserKey
 
         $binary = [];
         foreach ($characters as $character) {
-            $i = ord($character);
 
-            if($i > 48){
-                $i -= 48;
-            }
-
-            while ($i>63)
-            {
-                $i -= 8;
-            }
-
-            var_dump($i);
-            $sixBit = decbin($i);
+            $decimal = $this->encodingTable[$character];
+            $sixBit = decbin($decimal);
 
             // hardcoded left padding if number < $str_length
             $sixBit = substr("000".$sixBit, -$stringLen);
             $binary[] = $sixBit;
         }
-        return $binary;
-
-
+        return implode('', $binary); //without spaces
     }
 
 
-    protected function expandUserKey($userkey){
+    public function expandUserKey($userkey){
+
+        $int_part = (self::EXPAND_LEN - self::EXPAND_LEN % strlen($userkey)) / strlen($userkey); //get integer part of divided, eg. 2^26/18 = 3728270
+        $remained =  self::EXPAND_LEN - strlen($userkey)*$int_part;                              //get remained part, eg 4
+        $remained_bits = substr($userkey, 0, $remained);                                   //get remained bits
+
+        $expanded_userkey = str_repeat($userkey, $int_part);
+
+        $file = new SplFileObject("storage/userkey.txt", "w");
+        $written = $file->fwrite($expanded_userkey);
+        $written = $file->fwrite($remained_bits);
 
     }
 

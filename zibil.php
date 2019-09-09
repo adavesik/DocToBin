@@ -98,7 +98,25 @@ foreach ($iterator as $line) {
 
 }
 
-$uk = new UserKey("z");
+$uk = new UserKey("SEVADA");
 $key = $uk->getUserKey();
 echo $key."<pre>";
 print_r($uk->convertToBinary($key));
+$userkey = $uk->convertToBinary($key);
+
+$uk->expandUserKey($userkey);
+
+/*$n = (pow(2, 26) - pow(2, 26) % 18) / 18;
+$remained =  pow(2, 26) - 18*$n;
+$remained_bits = substr($userkey, 0, $remained);
+
+$file = new SplFileObject("storage/userkey.txt", "w");
+
+$exp_userkey = str_repeat($userkey, $n);
+$written = $file->fwrite($exp_userkey);
+echo "Wrote $written bytes to file";
+echo "<pre>";
+$written = $file->fwrite($remained_bits);
+echo "Wrote $written bytes to file";
+
+echo $remained;*/
