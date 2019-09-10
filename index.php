@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link href="css/form-validation.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
@@ -131,6 +131,45 @@
 
     </div>
 
+    <hr>
+    <hr>
+
+
+    <div class="py-5 text-center">
+        <h2 style="color: #007bff">User Key </h2>
+        <p class="lead">Below is an example form built for converting binary files.</p>
+    </div>
+    <div class="row" id="binary">
+        <div class="col-md-8 order-md-1">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="User Key" aria-label="User Key" id="key" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-success" name="userkey" id="userkey" type="button">Convert To SixBit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="binary">
+        <div class="col-md-8 order-md-1">
+            <blockquote class="mint" id="userkeybinary">
+                <h5>User Key converted to <span class="Cmint">SixBit</span> binary form:</h5>
+                <span id="binarykey"></span>
+            </blockquote>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 order-md-1">
+            <div class="input-group mb-3">
+                <div class="">
+                    <button class="btn btn-info" name="expand" id="expand" type="button">Expand to 2^26 and Download</button>
+                </div>
+            </div>
+            <span id="expandedfile"></span>
+        </div>
+    </div>
+
     <footer class="my-5 pt-5 text-muted text-center text-small">
         <p class="mb-1">&copy; 2019</p>
     </footer>
@@ -240,6 +279,88 @@
                     $(".submitBtn").removeAttr("disabled");
                 }
             });
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        var request;
+        $(document).on("click", '#userkey', function(event) {
+            var url = 'action_userkey.php';
+            // abort any pending request
+            if (request) {
+                request.abort();
+            }
+
+            var key = $('#key').val();
+            key = key.replace(/\+/g, "%2B");
+            //alert(key);
+
+            // post to the backend script in ajax mode
+            var serializedData = 'userkey='+key + '&action=convert';
+
+            // fire off the request
+            request = $.ajax({
+                url: url,
+                type: "post",
+                datatype: "json",
+                data: serializedData
+            })
+                .done(function (result, textStatus, jqXHR){
+
+                    $("#binarykey").html(result);
+
+                }).fail(function (jqXHR, textStatus, errorThrown){
+                    // log the error to the console
+                    console.error(
+                        "The following error occured: "+
+                        textStatus, errorThrown
+                    );
+                });
+
+            // prevent default posting of form
+            event.preventDefault();
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        var request;
+        $(document).on("click", '#expand', function(event) {
+            var url = 'action_userkey.php';
+            // abort any pending request
+            if (request) {
+                request.abort();
+            }
+
+            $("#expandedfile").empty();
+            // post to the backend script in ajax mode
+            var serializedData = 'userkey='+$('#key').val() + '&action=expand';
+
+            // fire off the request
+            request = $.ajax({
+                url: url,
+                type: "post",
+                datatype: "json",
+                data: serializedData
+            })
+                .done(function (result, textStatus, jqXHR){
+
+                    $("#expandedfile").html('<a href="/storage/userkey.txt" target="_blank">Download Userkey file</a>');
+
+                }).fail(function (jqXHR, textStatus, errorThrown){
+                    // log the error to the console
+                    console.error(
+                        "The following error occured: "+
+                        textStatus, errorThrown
+                    );
+                });
+
+            // prevent default posting of form
+            event.preventDefault();
         });
     });
 </script>

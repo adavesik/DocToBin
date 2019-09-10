@@ -87,7 +87,7 @@ class UserKey
     {
         if (FALSE === $this->validateUserKey($userkey)) {
             throw new InvalidArgumentException(
-                '$userkey should consists of english letters and digits and plus sign and / symbol'
+                $userkey.'should consists of english letters and digits and plus sign and / symbol'
             );
         }
         $this->userkey = $userkey;
