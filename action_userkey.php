@@ -2,12 +2,11 @@
 require_once 'UserKey.php';
 
 if (is_ajax()) {
-    if (isset($_POST["userkey"]) && !empty($_POST["userkey"])) { //Checks if action value exists
+    if (isset($_POST["userkey"])) { //Checks if action value exists (!empty($_POST["userkey"]))
         $action = $_POST["action"];
         $userkey = $_POST["userkey"];
         $keydata = "";
 
-        //var_dump($userkey);
         $uk = new UserKey($userkey);
 
         switch($action) {

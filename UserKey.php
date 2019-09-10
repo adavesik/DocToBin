@@ -118,8 +118,9 @@ class UserKey
             $decimal = $this->encodingTable[$character];
             $sixBit = decbin($decimal);
 
+
             // hardcoded left padding if number < $str_length
-            $sixBit = substr("000".$sixBit, -$stringLen);
+            $sixBit = substr("00000".$sixBit, -$stringLen);
             $binary[] = $sixBit;
         }
         return implode('', $binary); //without spaces
