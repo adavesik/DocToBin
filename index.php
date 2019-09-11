@@ -142,7 +142,7 @@
     <div class="row" id="binary">
         <div class="col-md-8 order-md-1">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="User Key" aria-label="User Key" id="key" aria-describedby="basic-addon2">
+                <input type="text" class="form-control" placeholder="User Key" aria-label="User Key" id="key" aria-describedby="basic-addon2" maxlength="1666667">
                 <div class="input-group-append">
                     <button class="btn btn-outline-success" name="userkey" id="userkey" type="button">Convert To SixBit</button>
                 </div>
@@ -349,7 +349,7 @@
             })
                 .done(function (result, textStatus, jqXHR){
 
-                    $("#expandedfile").html('<a href="/storage/userkey.txt" target="_blank">Download Userkey file</a>');
+                    $("#expandedfile").html('<a href="storage/userkey.txt" id="download" download>Download Userkey file</a>');
 
                 }).fail(function (jqXHR, textStatus, errorThrown){
                     // log the error to the console
@@ -364,7 +364,6 @@
         });
     });
 </script>
-
 
 </body>
 </html>

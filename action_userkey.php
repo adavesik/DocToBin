@@ -1,4 +1,5 @@
 <?php
+
 require_once 'UserKey.php';
 
 if (is_ajax()) {
