@@ -1,6 +1,9 @@
 <?php
+$start_time = microtime(true);
+
 require_once "BigFile.php";
 require_once "UserKey.php";
+require_once "HelperClass.php";
 
 function stringToBinary($string)
 {
@@ -88,23 +91,39 @@ echo "<pre>";
 
 
 
-$largefile = new BigFile("strands/0-2019-08-03.txt");
+/*$largefile_1 = new BigFile("strands/0-2019-08-03.txt");
+$largefile_2 = new BigFile("strands/1-2018-10-17.txt");
 
-$iterator = $largefile->iterate("Text"); // Text or Binary based on your file type
+$iterator_1 = $largefile_1->iterate("Text"); // Text or Binary based on your file type
+$iterator_2 = $largefile_2->iterate("Text"); // Text or Binary based on your file type
 
-foreach ($iterator as $line) {
+foreach ($iterator_1 as $line_1) {
+    //echo $line_1;
+    //$characters = HelperClass::str_split_unicode($line_1, 1);
+}*/
 
-    //echo strlen($line);
+/*$file = new SplFileObject("storage/USR4.txt", "w");
+$file_1 = fopen("strands/0-2019-08-03.txt","r");
+$file_2 = fopen("strands/1-2018-10-17.txt","r");
+$xored = '';
 
+while (! feof($file_1) || !feof($file_2)) {
+    $xored .= (int)fgetc($file_1) ^ (int)fgetc($file_2);
+    //echo $xored;
 }
+$written = $file->fwrite($xored);
+fclose($file_1);
+fclose($file_2);*/
 
-$uk = new UserKey("SEVADA");
+
+
+/*$uk = new UserKey("SEVADA");
 $key = $uk->getUserKey();
 echo $key."<pre>";
 print_r($uk->convertToBinary($key));
-$userkey = $uk->convertToBinary($key);
+$userkey = $uk->convertToBinary($key);*/
 
-$uk->expandUserKey($userkey);
+//$uk->expandUserKey($userkey);
 
 /*$n = (pow(2, 26) - pow(2, 26) % 18) / 18;
 $remained =  pow(2, 26) - 18*$n;
@@ -120,3 +139,63 @@ $written = $file->fwrite($remained_bits);
 echo "Wrote $written bytes to file";
 
 echo $remained;*/
+
+function step1() {
+    $file = new SplFileObject("storage/USR4.txt", "w");
+    $file_1 = fopen("strands/0-2019-08-03.txt","r");
+    $file_2 = fopen("strands/1-2018-10-17.txt","r");
+    $xored = '';
+
+    while (! feof($file_1) || !feof($file_2)) {
+        $xored .= (int)fgetc($file_1) ^ (int)fgetc($file_2);
+        yield true;
+    }
+    $written = $file->fwrite($xored);
+    fclose($file_1);
+    fclose($file_2);
+}
+function step2() {
+    $file = new SplFileObject("storage/USR5.txt", "w");
+    $file_1 = fopen("strands/2-2018-09-28.txt","r");
+    $file_2 = fopen("strands/3-2019-09-02.txt","r");
+    $xored = '';
+
+    while (! feof($file_1) || !feof($file_2)) {
+        $xored .= (int)fgetc($file_1) ^ (int)fgetc($file_2);
+        yield true;
+    }
+    $written = $file->fwrite($xored);
+    fclose($file_1);
+    fclose($file_2);
+}
+
+
+function runner(array $steps) {
+    while (true) {                                                # снова бесконечный цикл, в котором перебираем потоки
+        foreach ($steps as $key => $step) {
+            $step->next();                                    # возобновляем работу потока с с момента последнего yield
+            if (!$step->valid()) {                           # проверяем, завершился ли поток и завершаем (удаляем) его
+                unset($steps[$key]);
+            }
+        }
+        if (empty($steps)) return;                      # если потоков нет - завершаем работу
+    }
+}
+
+runner(array(step1(), step2()));
+
+
+
+
+
+
+
+
+
+// End clock time in seconds
+$end_time = microtime(true);
+
+// Calculate script execution time
+$execution_time = ($end_time - $start_time);
+
+echo " Execution time of script = ".$execution_time." sec";
