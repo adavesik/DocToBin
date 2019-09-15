@@ -4,6 +4,7 @@ require_once "HelperClass.php";
 class UserKey
 {
     const EXPAND_LEN = 67108864; //pow(2, 26)
+    const SPLIT_SIZE = 8388608;
 
     private $userkey;
 
@@ -139,6 +140,44 @@ class UserKey
         $written = $file->fwrite($expanded_userkey);
         $written = $file->fwrite($remained_bits);
 
+    }
+
+
+    public function splitIntoEight($filename, $retbytes = TRUE){
+        $buffer = '';
+        $cnt    = 0;
+        $file_num = 0;
+        $handle = fopen($filename, 'rb');
+
+        if ($handle === false) {
+            return false;
+        }
+
+        while (!feof($handle)) {
+            $buffer = fread($handle, self::SPLIT_SIZE);
+
+            if(!empty($buffer)){
+                $file = new SplFileObject("uks/USR{$file_num}.txt", "w");
+                $written = $file->fwrite($buffer);
+
+                $file_num++;
+            }
+
+            ob_flush();
+            flush();
+
+            if ($retbytes) {
+                $cnt += strlen($buffer);
+            }
+        }
+
+        $status = fclose($handle);
+
+        if ($retbytes && $status) {
+            return $cnt; // return num. bytes delivered like readfile() does.
+        }
+
+        return $status;
     }
 
 }

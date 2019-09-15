@@ -117,8 +117,8 @@ fclose($file_2);*/
 
 
 
-/*$uk = new UserKey("SEVADA");
-$key = $uk->getUserKey();
+$uk = new UserKey("SEVADA");
+/*$key = $uk->getUserKey();
 echo $key."<pre>";
 print_r($uk->convertToBinary($key));
 $userkey = $uk->convertToBinary($key);*/
@@ -182,10 +182,63 @@ function runner(array $steps) {
     }
 }
 
-runner(array(step1(), step2()));
+//runner(array(step1(), step2()));
 
 
 
+
+
+define('CHUNK_SIZE', 1024*1024); // Size (in bytes) of tiles chunk
+
+// Read a file and display its content chunk by chunk
+function readfile_chunked($filename, $second_filename, $retbytes = TRUE) {
+    $file = new SplFileObject("storage/USR4.txt", "w");
+
+    $buffer = '';
+    $cnt    = 0;
+    $xored = '';
+    $handle = fopen($filename, 'rb');
+    $handle_2 = fopen($second_filename, 'rb');
+
+    if ($handle === false) {
+        return false;
+    }
+
+    while (!feof($handle) || !feof($handle_2)) {
+        $buffer = fread($handle, CHUNK_SIZE);
+        $buffer_2 = fread($handle_2, CHUNK_SIZE);
+
+        $bin_1 = str_split($buffer);
+        $bin_2 = str_split($buffer_2);
+
+        foreach ($bin_1 as $key=>$value){
+            $xored .= (int)$value ^ (int)$bin_2[$key];
+        }
+
+        $written = $file->fwrite($xored);
+        $xored = '';
+        //echo $buffer;
+        ob_flush();
+        flush();
+
+        if ($retbytes) {
+            $cnt += strlen($buffer);
+        }
+    }
+
+    fclose($handle_2);
+    $status = fclose($handle);
+
+    if ($retbytes && $status) {
+        return $cnt; // return num. bytes delivered like readfile() does.
+    }
+
+    return $status;
+}
+
+//readfile_chunked("strands/2-2018-09-28.txt","strands/3-2019-09-02.txt");
+
+echo $uk->splitIntoEight("storage/userkey.txt");
 
 
 
