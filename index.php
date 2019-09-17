@@ -170,6 +170,32 @@
         </div>
     </div>
 
+    <hr>
+
+
+    <div class="py-5 text-center">
+        <h2 style="color: #007bff">Universal Random Sequence </h2>
+        <p class="lead">Below is a button for generating URS.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-8 order-md-1">
+            <blockquote class="lavander" >
+                <h5><span class="Clavander">URS</span> will be generated combaining Strands 0-7</h5>
+                <span id="binarykey"></span>
+            </blockquote>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 order-md-1">
+            <div class="input-group mb-3">
+                <div class="">
+                    <button class="btn btn-warning" name="urs" id="urs" type="button">Generate URS file and Download</button>
+                </div>
+            </div>
+            <span id="ursfile"></span>
+        </div>
+    </div>
+
     <footer class="my-5 pt-5 text-muted text-center text-small">
         <p class="mb-1">&copy; 2019</p>
     </footer>
@@ -350,6 +376,46 @@
                 .done(function (result, textStatus, jqXHR){
 
                     $("#expandedfile").html('<a href="storage/userkey.txt" id="download" download>Download Userkey file</a>');
+
+                }).fail(function (jqXHR, textStatus, errorThrown){
+                    // log the error to the console
+                    console.error(
+                        "The following error occured: "+
+                        textStatus, errorThrown
+                    );
+                });
+
+            // prevent default posting of form
+            event.preventDefault();
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        var request;
+        $(document).on("click", '#urs', function(event) {
+            var url = 'action_urs.php';
+            // abort any pending request
+            if (request) {
+                request.abort();
+            }
+
+            $("#expandedfile").empty();
+            // post to the backend script in ajax mode
+            var serializedData = 'action=generate';
+
+            // fire off the request
+            request = $.ajax({
+                url: url,
+                type: "post",
+                datatype: "json",
+                data: serializedData
+            })
+                .done(function (result, textStatus, jqXHR){
+
+                    $("#ursfile").html('<a href="storage/URS.txt" id="download" download>Download generated URS file</a>');
 
                 }).fail(function (jqXHR, textStatus, errorThrown){
                     // log the error to the console
