@@ -157,7 +157,7 @@ class UserKey
             $buffer = fread($handle, self::SPLIT_SIZE);
 
             if(!empty($buffer)){
-                $file = new SplFileObject("uks/USR{$file_num}.txt", "w");
+                $file = new SplFileObject("uks/Exp Key {$file_num}.txt", "w");
                 $written = $file->fwrite($buffer);
 
                 $file_num++;

@@ -170,6 +170,15 @@
         </div>
     </div>
 
+    <div class="row" id="split-files">
+        <div class="col-md-8 order-md-1">
+            <blockquote class="mint">
+                <h5>Bellow you can download <span class="Cmint">8</span> files:</h5>
+                <span id="split-files"></span>
+            </blockquote>
+        </div>
+    </div>
+
     <hr>
 
 
@@ -193,6 +202,32 @@
                 </div>
             </div>
             <span id="ursfile"></span>
+        </div>
+    </div>
+
+
+
+    <hr>
+    <div class="py-5 text-center">
+        <h2 style="color: #007bff">XOR Extended UK with URS </h2>
+        <p class="lead">Below is a form for generating modified URS.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 order-md-1">
+            <form enctype="multipart/form-data" id="xorForm" >
+                <hr class="mb-4">
+                <div class="form-group">
+                    <label for="file">Extended UK File</label>
+                    <input type="file" class="form-control" id="uk-file" name="uk-file" required />
+                    <label for="file">Universal Random Sequence File</label>
+                    <input type="file" class="form-control" id="urs-file" name="urs-file" required />
+                </div>
+                <hr class="mb-4">
+                <input type="submit" name="submit" class="btn btn-danger submitBtn" value="Submit"/>
+            </form>
+            <span id="mURS"></span>
+
         </div>
     </div>
 
@@ -375,7 +410,60 @@
             })
                 .done(function (result, textStatus, jqXHR){
 
-                    $("#expandedfile").html('<a href="storage/userkey.txt" id="download" download>Download Userkey file</a>');
+                    $("#expandedfile").html('<a href="storage/userkey.txt" id="download" download>Download Userkey file</a><button class="btn btn-warning" name="uk-split" id="uk-split" type="button">Split into Eight files</button>');
+
+                }).fail(function (jqXHR, textStatus, errorThrown){
+                    // log the error to the console
+                    console.error(
+                        "The following error occured: "+
+                        textStatus, errorThrown
+                    );
+                });
+
+            // prevent default posting of form
+            event.preventDefault();
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        var request;
+        $(document).on("click", '#uk-split', function(event) {
+            var url = 'action_userkey.php';
+            // abort any pending request
+            if (request) {
+                request.abort();
+            }
+
+            $("#split-files").empty();
+            // post to the backend script in ajax mode
+            var serializedData = 'userkey='+$('#key').val() + '&action=split';
+
+            // fire off the request
+            request = $.ajax({
+                url: url,
+                type: "post",
+                datatype: "json",
+                data: serializedData
+            })
+                .done(function (result, textStatus, jqXHR){
+
+                    $("#split-files").html('<div class="row">\n' +
+                        '        <div class="col-md-12 order-md-1">' +
+                        '<ul class="list-group">\n' +
+                        '  <li class="list-group-item"><a href="uks/Exp Key 0.txt" id="download" download>Download Exp Key 0</a></li>\n' +
+                        '  <li class="list-group-item"><a href="uks/Exp Key 1.txt" id="download" download>Download Exp Key 1</a></li>\n' +
+                        '  <li class="list-group-item"><a href="uks/Exp Key 2.txt" id="download" download>Download Exp Key 2</a></li>\n' +
+                        '  <li class="list-group-item"><a href="uks/Exp Key 3.txt" id="download" download>Download Exp Key 3</a></li>\n' +
+                        '  <li class="list-group-item"><a href="uks/Exp Key 4.txt" id="download" download>Download Exp Key 4</a></li>\n' +
+                        '  <li class="list-group-item"><a href="uks/Exp Key 5.txt" id="download" download>Download Exp Key 5</a></li>\n' +
+                        '  <li class="list-group-item"><a href="uks/Exp Key 6.txt" id="download" download>Download Exp Key 6</a></li>\n' +
+                        '  <li class="list-group-item"><a href="uks/Exp Key 7.txt" id="download" download>Download Exp Key 7</a></li>\n' +
+                        '</ul>' +
+                        '</div>' +
+                        '</div>');
 
                 }).fail(function (jqXHR, textStatus, errorThrown){
                     // log the error to the console
@@ -427,6 +515,32 @@
 
             // prevent default posting of form
             event.preventDefault();
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function(e){
+        $("#xorForm").on('submit', function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'action_xor.php',
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data){
+
+                    var jsonData = JSON.parse(data);
+
+                    $('#xorForm').css("opacity","");
+                    $(".submitBtn").removeAttr("disabled");
+
+                    $("#mURS").html('<a href="storage/XOR_URS.txt" id="download" download>Download generated URS file</a>');
+                }
+            });
         });
     });
 </script>

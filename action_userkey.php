@@ -25,6 +25,10 @@ if (is_ajax()) {
                 $keydata = $uk->convertToBinary($key);
                 $uk->expandUserKey($keydata);
                 break;
+
+            case "split":
+                $uk->splitIntoEight("storage/userkey.txt");
+                break;
         }
 
     }}
