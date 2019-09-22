@@ -5,6 +5,7 @@ class UserKey
 {
     const EXPAND_LEN = 67108864; //pow(2, 26)
     const SPLIT_SIZE = 8388608;
+    const BITS  = 184;
 
     private $userkey;
 
@@ -175,6 +176,33 @@ class UserKey
 
         if ($retbytes && $status) {
             return $cnt; // return num. bytes delivered like readfile() does.
+        }
+
+        return $status;
+    }
+
+    public static function get184Bits($filename, $retbytes = true){
+        $buffer = '';
+        $cnt    = 0;
+        $handle = fopen($filename, 'rb');
+
+        if ($handle === false) {
+            return false;
+        }
+
+            $buffer = fread($handle, self::BITS);
+
+            ob_flush();
+            flush();
+
+            if ($retbytes) {
+                $cnt += strlen($buffer);
+            }
+
+        $status = fclose($handle);
+
+        if ($retbytes && $status) {
+            return $buffer; // return num. bytes delivered like readfile() does.
         }
 
         return $status;

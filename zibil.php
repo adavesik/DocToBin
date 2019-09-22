@@ -5,6 +5,7 @@ require_once "BigFile.php";
 require_once "UserKey.php";
 require_once "HelperClass.php";
 require_once "Urs.php";
+require_once "Strand.php";
 
 function stringToBinary($string)
 {
@@ -241,10 +242,26 @@ function readfile_chunked($filename, $second_filename, $retbytes = TRUE) {
 
 //echo $uk->splitIntoEight("storage/userkey.txt");
 
-$urs = new Urs();
+/*$urs = new Urs();
 $urs->makeURS("strands/0-2019-08-03.txt", "strands/1-2018-10-17.txt", "strands/2-2018-09-28.txt",
               "strands/3-2019-09-02.txt", "strands/4-2019-02-05.txt", "strands/5-2018-12-22.txt",
-              "strands/6-2019-01-06.txt", "strands/7-2019-03-14.txt");
+              "strands/6-2019-01-06.txt", "strands/7-2019-03-14.txt");*/
+
+
+//$uk = new UserKey("CAT");
+//$bts = $uk->get23Bits("storage/userkey.txt", 2);
+
+//$bts = UserKey::get23Bits("storage/userkey.txt", 1);
+
+//echo $bts;
+echo "<br>";
+
+//echo bindec($bts);
+echo "<br>";
+
+
+$strand = new Strand();
+echo $strand->rearrangeStrands();
 
 
 
