@@ -238,6 +238,30 @@ function readfile_chunked($filename, $second_filename, $retbytes = TRUE) {
     return $status;
 }
 
+
+/**
+ * Runs the XNOR gate function on the given numbers.
+ * Each input will be cast to a boolean before comparing.
+ *
+ * @param mixed ...$inputs
+ *
+ * @return bool
+ */
+function xnor(...$inputs): int
+{
+    if (!$inputs) {
+        throw new InvalidArgumentException('At least one input must be provided.');
+    }
+    $compare = (bool)array_shift($inputs);
+    foreach ($inputs as $input) {
+        if ((bool)$input !== $compare) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+
 //readfile_chunked("strands/2-2018-09-28.txt","strands/3-2019-09-02.txt");
 
 //echo $uk->splitIntoEight("storage/userkey.txt");
@@ -251,9 +275,9 @@ $urs->makeURS("strands/0-2019-08-03.txt", "strands/1-2018-10-17.txt", "strands/2
 //$uk = new UserKey("CAT");
 //$bts = $uk->get23Bits("storage/userkey.txt", 2);
 
-//$bts = UserKey::get23Bits("storage/userkey.txt", 1);
+$bts = UserKey::get185Bit("storage/userkey.txt");
 
-//echo $bts;
+echo $bts;
 echo "<br>";
 
 //echo bindec($bts);
@@ -261,9 +285,9 @@ echo "<br>";
 
 
 $strand = new Strand();
-echo $strand->rearrangeStrands();
+//echo $strand->rearrangeStrands();
 
-
+echo xnor(0, 0);
 
 
 

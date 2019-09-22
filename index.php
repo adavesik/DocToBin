@@ -223,10 +223,61 @@
                     <label for="file">Universal Random Sequence File</label>
                     <input type="file" class="form-control" id="urs-file" name="urs-file" required />
                 </div>
+                <select class="custom-select" id="bitwise" name="bitwise">
+                    <option value="" selected>Please select logical operation method</option>
+                    <option value=1> XOR </option>
+                    <option value=0> XNOR </option>
+                </select>
                 <hr class="mb-4">
                 <input type="submit" name="submit" class="btn btn-danger submitBtn" value="Submit"/>
             </form>
             <span id="mURS"></span>
+
+        </div>
+    </div>
+
+
+
+
+    <hr>
+    <div class="py-5 text-center">
+        <h2 style="color: #007bff">Strands Rearranging </h2>
+        <p class="lead">Below is a form for rearranging strands.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 order-md-1">
+            <form enctype="multipart/form-data" id="strands" >
+                <hr class="mb-4">
+                <div class="form-group">
+                    <label for="file">Strand 0</label>
+                    <input type="file" class="form-control" id="strand0" name="strand0" required />
+
+                    <label for="file">Strand 1</label>
+                    <input type="file" class="form-control" id="strand1" name="strand1" required />
+
+                    <label for="file">Strand 2</label>
+                    <input type="file" class="form-control" id="strand2" name="strand2" required />
+
+                    <label for="file">Strand 3</label>
+                    <input type="file" class="form-control" id="strand3" name="strand3" required />
+
+                    <label for="file">Strand 4</label>
+                    <input type="file" class="form-control" id="strand4" name="strand4" required />
+
+                    <label for="file">Strand 5</label>
+                    <input type="file" class="form-control" id="strand5" name="strand5" required />
+
+                    <label for="file">Strand 6</label>
+                    <input type="file" class="form-control" id="strand6" name="strand6" required />
+
+                    <label for="file">Strand 7</label>
+                    <input type="file" class="form-control" id="strand7" name="strand7" required />
+                </div>
+                <hr class="mb-4">
+                <input type="submit" name="submit" class="btn btn-danger" value="Submit"/>
+            </form>
+            <span id="for-strand"></span>
 
         </div>
     </div>
@@ -538,7 +589,55 @@
                     $('#xorForm').css("opacity","");
                     $(".submitBtn").removeAttr("disabled");
 
-                    $("#mURS").html('<a href="storage/XOR_URS.txt" id="download" download>Download generated URS file</a>');
+                    if(jsonData == 1){
+                        var notif = "Will be used XOR";
+                    }
+                    else {
+                        notif = "Will be used XNOR";
+                    }
+
+                    $("#mURS").html('<h5><span class="Clavander">User Keys 185_th bit is: ' + jsonData +'</span>'+notif+'</h5>' +
+                        '<a href="storage/XOR_URS.txt" id="download" download>Download generated URS file</a>');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+<script>
+    $(document).ready(function(e){
+        $("#strands").on('submit', function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'action_strands.php',
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data){
+
+                    var jsonData = JSON.parse(data);
+
+                    $('#strands').css("opacity","");
+                    $(".submitBtn").removeAttr("disabled");
+
+                    $("#for-strand").html('<h5><span class="Clavander">Rearranging Points are: </span></h5>' +
+                        '<ul class="list-group">\n' +
+                        '  <li class="list-group-item">'+jsonData[0]+'</li>\n' +
+                        '  <li class="list-group-item">'+jsonData[1]+'</li>\n' +
+                        '  <li class="list-group-item">'+jsonData[2]+'</li>\n' +
+                        '  <li class="list-group-item">'+jsonData[3]+'</li>\n' +
+                        '  <li class="list-group-item">'+jsonData[4]+'</li>\n' +
+                        '  <li class="list-group-item">'+jsonData[5]+'</li>\n' +
+                        '  <li class="list-group-item">'+jsonData[6]+'</li>\n' +
+                        '  <li class="list-group-item">'+jsonData[7]+'</li>\n' +
+                        '</ul>');
                 }
             });
         });

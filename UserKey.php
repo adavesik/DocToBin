@@ -208,4 +208,32 @@ class UserKey
         return $status;
     }
 
+
+    public function get185Bit($filename, $retbytes = true){
+        $buffer = '';
+        $cnt    = 0;
+        $handle = fopen($filename, 'rb');
+
+        if ($handle === false) {
+            return false;
+        }
+
+        $buffer = fread($handle, 185);
+
+        ob_flush();
+        flush();
+
+        if ($retbytes) {
+            $cnt += strlen($buffer);
+        }
+
+        $status = fclose($handle);
+
+        if ($retbytes && $status) {
+            return $buffer[184]; // return num. bytes delivered like readfile() does.
+        }
+
+        return $status;
+    }
+
 }

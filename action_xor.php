@@ -1,6 +1,7 @@
 <?php
 
 require_once "XORClass.php";
+require_once "UserKey.php";
 
 $xoring = new XORClass();
 
@@ -11,8 +12,11 @@ if (is_ajax()) {
         //$uk_file = file_get_contents($_FILES['uk-file']['tmp_name']);
         //$urs_file = file_get_contents($_FILES['urs-file']['tmp_name']);
 
-        $ret = $xoring->XorFiles($_FILES['uk-file']['tmp_name'], $_FILES['urs-file']['tmp_name']);
-        echo json_encode($ret);
+        //$bit = UserKey::get185Bit($_FILES['uk-file']['tmp_name']);
+        $bit = $_POST['bitwise'];
+
+        $ret = $xoring->XorFiles($_FILES['uk-file']['tmp_name'], $_FILES['urs-file']['tmp_name'], $bit);
+        echo json_encode($bit);
     }
 
     }
