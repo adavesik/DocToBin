@@ -6,29 +6,38 @@ class Strand
 
 
     public function rearrangeStrands($filename0, $filename1, $filename2, $filename3, $filename4, $filename5, $filename6, $filename7){
-        $all_bits = UserKey::get184Bits("storage/userkey.txt");
+/*        $all_bits = UserKey::get184Bits("storage/userkey.txt");
 
         $points_str = chunk_split($all_bits, 23, ' ');
         $points = substr(rtrim($points_str),0);
-        $points = explode(' ', $points);
+        $points = explode(' ', $points);*/
 
-        $point0 = bindec($points[0]);
-        $point1 = bindec($points[1]);
-        $point2 = bindec($points[2]);
-        $point3 = bindec($points[3]);
-        $point4 = bindec($points[4]);
-        $point5 = bindec($points[5]);
-        $point6 = bindec($points[6]);
-        $point7 = bindec($points[7]);
+        $point0 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key0 2006-03-11.txt"));
+        $point1 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 1 2006-03-12.txt"));
+        $point2 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 2 2006-03-13.txt"));
+        $point3 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 3 2006-03-14.txt"));
+        $point4 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 4 2006-03-15.txt"));
+        $point5 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 5 2006-03-16.txt"));
+        $point6 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 6 2006-03-17.txt"));
+        $point7 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 7 2006-03-18.txt"));
 
-        $status = $this->rearrangeFile($filename0, "0-2019-08-03.txt", $point0);
-        $status = $this->rearrangeFile($filename1, "1-2018-10-17.txt", $point1);
-        $status = $this->rearrangeFile($filename2, "2-2018-09-28.txt", $point2);
-        $status = $this->rearrangeFile($filename3, "3-2019-09-02.txt", $point3);
-        $status = $this->rearrangeFile($filename4, "4-2019-02-05.txt", $point4);
-        $status = $this->rearrangeFile($filename5, "5-2018-12-22.txt", $point5);
-        $status = $this->rearrangeFile($filename6, "6-2019-01-06.txt", $point6);
-        $status = $this->rearrangeFile($filename7, "7-2019-03-14.txt", $point7);
+        $status = $this->rearrangeFile($filename0, "0-KeyRandomizedRearranged.txt", $point0);
+        $status = $this->rearrangeFile($filename1, "1-KeyRandomizedRearranged.txt", $point1);
+        $status = $this->rearrangeFile($filename2, "2-KeyRandomizedRearranged.txt", $point2);
+        $status = $this->rearrangeFile($filename3, "3-KeyRandomizedRearranged.txt", $point3);
+        $status = $this->rearrangeFile($filename4, "4-KeyRandomizedRearranged.txt", $point4);
+        $status = $this->rearrangeFile($filename5, "5-KeyRandomizedRearranged.txt", $point5);
+        $status = $this->rearrangeFile($filename6, "6-KeyRandomizedRearranged.txt", $point6);
+        $status = $this->rearrangeFile($filename7, "7-KeyRandomizedRearranged.txt", $point7);
+
+        $points[] = $point0;
+        $points[] = $point1;
+        $points[] = $point2;
+        $points[] = $point3;
+        $points[] = $point4;
+        $points[] = $point5;
+        $points[] = $point6;
+        $points[] = $point7;
 
         return $points;
     }

@@ -275,7 +275,7 @@ $urs->makeURS("strands/0-2019-08-03.txt", "strands/1-2018-10-17.txt", "strands/2
 //$uk = new UserKey("CAT");
 //$bts = $uk->get23Bits("storage/userkey.txt", 2);
 
-$bts = UserKey::get185Bit("storage/userkey.txt");
+$bts = UserKey::getLast24Bit("storage/userkey.txt");
 
 echo $bts;
 echo "<br>";
@@ -287,7 +287,7 @@ echo "<br>";
 $strand = new Strand();
 //echo $strand->rearrangeStrands();
 
-echo xnor(0, 0);
+//echo xnor(0, 0);
 
 
 

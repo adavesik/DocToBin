@@ -236,4 +236,67 @@ class UserKey
         return $status;
     }
 
+
+    public static function getLast23Bits($filename, $retbytes = true){
+        $buffer = '';
+        $cnt    = 0;
+        $handle = fopen($filename, 'rb');
+
+        if ($handle === false) {
+            return false;
+        }
+
+        // Jump to last character
+        fseek($handle, -23, SEEK_END);
+
+        $buffer = fread($handle, 23);
+
+        ob_flush();
+        flush();
+
+        if ($retbytes) {
+            $cnt += strlen($buffer);
+        }
+
+        $status = fclose($handle);
+
+        if ($retbytes && $status) {
+            return $buffer; // return num. bytes delivered like readfile() does.
+        }
+
+        return $status;
+    }
+
+
+    public static function getLast24Bit($filename, $retbytes = true){
+        $buffer = '';
+        $cnt    = 0;
+        $handle = fopen($filename, 'rb');
+
+        if ($handle === false) {
+            return false;
+        }
+
+        // Jump to last character
+        fseek($handle, -24, SEEK_END);
+
+        $buffer = fread($handle, 1);
+
+        ob_flush();
+        flush();
+
+        if ($retbytes) {
+            $cnt += strlen($buffer);
+        }
+
+        $status = fclose($handle);
+
+        if ($retbytes && $status) {
+            return $buffer; // return num. bytes delivered like readfile() does.
+        }
+
+        return $status;
+    }
+
+
 }
