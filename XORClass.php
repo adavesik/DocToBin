@@ -5,8 +5,8 @@ class XORClass
 {
     const CHUNK_SIZE = 1048576;
 
-    public function XorFiles($filename1, $filename2, $method, $retbytes = TRUE){
-        $file = new SplFileObject("storage/XOR_URS.txt", "w");
+    public function XorFiles($filename1, $filename2, $method, $output = "storage/XOR_URS.txt", $retbytes = TRUE){
+        $file = new SplFileObject($output, "w");
 
         $buffer = '';
         $cnt    = 0;
@@ -74,7 +74,7 @@ class XORClass
         $status = fclose($handle);
 
         if ($retbytes && $status) {
-            return $cnt; // return num. bytes delivered like readfile() does.
+            return $file; // return num. bytes delivered like readfile() does.
         }
 
         return $status;

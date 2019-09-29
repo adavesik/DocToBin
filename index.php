@@ -282,6 +282,51 @@
         </div>
     </div>
 
+
+
+    <hr>
+    <div class="py-5 text-center">
+        <h2 style="color: #007bff">First Pad! </h2>
+        <p class="lead">Below is a form for First Pad generation.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 order-md-1">
+            <form enctype="multipart/form-data" id="krr" >
+                <hr class="mb-4">
+                <div class="form-group">
+                    <label for="file">KRR 0</label>
+                    <input type="file" class="form-control" id="krr0" name="krr0" required />
+
+                    <label for="file">KRR 1</label>
+                    <input type="file" class="form-control" id="krr1" name="krr1" required />
+
+                    <label for="file">KRR 2</label>
+                    <input type="file" class="form-control" id="krr2" name="krr2" required />
+
+                    <label for="file">KRR 3</label>
+                    <input type="file" class="form-control" id="krr3" name="krr3" required />
+
+                    <label for="file">KRR 4</label>
+                    <input type="file" class="form-control" id="krr4" name="krr4" required />
+
+                    <label for="file">KRR 5</label>
+                    <input type="file" class="form-control" id="krr5" name="krr5" required />
+
+                    <label for="file">KRR 6</label>
+                    <input type="file" class="form-control" id="krr6" name="krr6" required />
+
+                    <label for="file">KRR 7</label>
+                    <input type="file" class="form-control" id="krr7" name="krr7" required />
+                </div>
+                <hr class="mb-4">
+                <input type="submit" name="submit" class="btn btn-danger" value="Submit"/>
+            </form>
+            <span id="for-krr"></span>
+
+        </div>
+    </div>
+
     <footer class="my-5 pt-5 text-muted text-center text-small">
         <p class="mb-1">&copy; 2019</p>
     </footer>
@@ -638,6 +683,33 @@
                         '  <li class="list-group-item">'+jsonData[6]+'</li>\n' +
                         '  <li class="list-group-item">'+jsonData[7]+'</li>\n' +
                         '</ul>');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function(e){
+        $("#krr").on('submit', function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'action_pad.php',
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data){
+
+                    var jsonData = JSON.parse(data);
+
+                    $('#krr').css("opacity","");
+                    $(".submitBtn").removeAttr("disabled");
+
+                    $("#for-krr").html('<h5><span class="Clavander">Rearranging Points are: </span>'+jsonData+'</h5>');
                 }
             });
         });
