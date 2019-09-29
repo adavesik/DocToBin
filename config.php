@@ -8,6 +8,7 @@
 
 return array(
     'uploaddir' => 'storage/',
+    'strandsdir' => 'strands/',
     'xmldir' => '/var/www/html/doc2bin/storage/tmpfiles/',
     'valid_extensions' => array("doc", "jpeg", "png")
 );
