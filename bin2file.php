@@ -33,8 +33,8 @@
             <a href="universal_rnd_seq.php" class="list-group-item list-group-item-action bg-light">Universal Random Sequence</a>
             <a href="xor.php" class="list-group-item list-group-item-action bg-light">XOR</a>
             <a href="rearranging.php" class="list-group-item list-group-item-action bg-light">Rearranging</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Pad Generation</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Pads Autogeneration</a>
+            <a href="pad.php" class="list-group-item list-group-item-action bg-light">Pad Generation</a>
+            <a href="auto_pad.php" class="list-group-item list-group-item-action bg-light">Pads Autogeneration</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

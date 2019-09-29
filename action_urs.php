@@ -13,6 +13,7 @@ if (is_ajax()) {
         switch($action) {
 
             case "generate":
+            case "combine":
 
                 $res = $urs->makeURS("strands/0-2019-08-03.txt", "strands/1-2018-10-17.txt", "strands/2-2018-09-28.txt",
                     "strands/3-2019-09-02.txt", "strands/4-2019-02-05.txt", "strands/5-2018-12-22.txt",

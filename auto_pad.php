@@ -52,8 +52,8 @@
         </nav>
 
         <div class="py-5 text-center">
-            <h2 style="color: #007bff">User Key </h2>
-            <p class="lead">Below is an example form built for converting binary files.</p>
+            <h2 style="color: #007bff">Pads Generating </h2>
+            <p class="lead">Below is an example form built for generating Pads.</p>
         </div>
         <div class="row ml-2" id="binary">
             <div class="col-md-8 order-md-1">
@@ -146,6 +146,87 @@
         var request;
         $(document).on("click", '#userkey', function(event) {
             var url = 'action_userkey.php';
+            var ursUrl = 'action_urs.php';
+            var xorUrl = 'action_xor.php';
+            // abort any pending request
+            if (request) {
+                request.abort();
+            }
+
+            var key = $('#key').val();
+            key = key.replace(/\+/g, "%2B");
+
+            ursfile = 'storage/URS.txt';
+            ukfile = 'storage/userkey.txt';
+
+            var uk = $.ajax({
+                    url: url,
+                    type: "post",
+                    dataType: 'json',
+                    data: 'userkey='+key + '&action=convert'
+                }),
+                uk2 = uk.then(function(data) {
+                    // .then() returns a new promise
+                    return $.ajax({
+                        url: url,
+                        type: "post",
+                        dataType: 'json',
+                        data: 'userkey='+key + '&action=expand'
+                    });
+                });
+
+            urs = uk2.then(function(data) {
+                // .then() returns a new promise
+                return $.ajax({
+                    url: 'action_urs.php',
+                    type: "post",
+                    dataType: 'json',
+                    data: 'action=combine'
+                });
+            });
+
+            xorUrsUserkey = urs.then(function(data) {
+                // .then() returns a new promise
+                return $.ajax({
+                    url: 'action_xor.php',
+                    type: "post",
+                    dataType: 'json',
+                    data: 'ursFile='+ursfile+'&ukFile='+ukfile
+                });
+            });
+
+
+
+            uk.done(function(data) {
+                console.log(data);
+            });
+
+            uk2.done(function(data) {
+                console.log(data);
+            });
+
+            urs.done(function(data) {
+                console.log(data);
+            });
+
+            xorUrsUserkey.done(function(data) {
+                console.log(data);
+            });
+
+            // prevent default posting of form
+            event.preventDefault();
+        });
+    });
+</script>
+
+
+<!--<script>
+    $(document).ready(function() {
+        var request;
+        $(document).on("click", '#userkey', function(event) {
+            var url = 'action_userkey.php';
+            var ursUrl = 'action_urs.php';
+            var xorUrl = 'action_xor.php';
             // abort any pending request
             if (request) {
                 request.abort();
@@ -155,125 +236,62 @@
             key = key.replace(/\+/g, "%2B");
             //alert(key);
 
-            // post to the backend script in ajax mode
-            var serializedData = 'userkey='+key + '&action=convert';
+            $.when( getTweets(url, key, 'convert'),
+                getTweets(url, key, 'expand'),
+                combineStrands(ursUrl, 'combine'),
+                xorUrsStrands(xorUrl, 'storage/URS.txt', 'storage/userkey.txt')
+            ).done(function(convertArgs, expandArgs, combineArgs, xorArgs){
+                var allTweets = [].concat(convertArgs[0]).concat(expandArgs[0]).concat(combineArgs[0]).concat(xorArgs[0]);
+            console.log(allTweets);
+            });
 
+            // prevent default posting of form
+            event.preventDefault();
+        });
+
+
+        var getTweets = function(url, key, action){
+            // post to the backend script in ajax mode
+            var serializedData = 'userkey='+key + '&action='+action;
             // fire off the request
             request = $.ajax({
                 url: url,
                 type: "post",
                 datatype: "json",
                 data: serializedData
-            })
-                .done(function (result, textStatus, jqXHR){
+            });
+            return request;
+        };
 
-                    $("#binarykey").html(result);
-
-                }).fail(function (jqXHR, textStatus, errorThrown){
-                    // log the error to the console
-                    console.error(
-                        "The following error occured: "+
-                        textStatus, errorThrown
-                    );
-                });
-
-            // prevent default posting of form
-            event.preventDefault();
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        var request;
-        $(document).on("click", '#expand', function(event) {
-            var url = 'action_userkey.php';
-            // abort any pending request
-            if (request) {
-                request.abort();
-            }
-
-            $("#expandedfile").empty();
+        var combineStrands = function(url, action){
             // post to the backend script in ajax mode
-            var serializedData = 'userkey='+$('#key').val() + '&action=expand';
-
+            var serializedData = 'action='+action;
             // fire off the request
             request = $.ajax({
                 url: url,
                 type: "post",
                 datatype: "json",
                 data: serializedData
-            })
-                .done(function (result, textStatus, jqXHR){
+            });
+            return request;
+        };
 
-                    $("#expandedfile").html('<a href="storage/userkey.txt" id="download" download>Download Userkey file</a><button class="btn btn-warning" name="uk-split" id="uk-split" type="button">Split into Eight files</button>');
-
-                }).fail(function (jqXHR, textStatus, errorThrown){
-                    // log the error to the console
-                    console.error(
-                        "The following error occured: "+
-                        textStatus, errorThrown
-                    );
-                });
-
-            // prevent default posting of form
-            event.preventDefault();
-        });
-    });
-</script>
-
-
-<script>
-    $(document).ready(function() {
-        var request;
-        $(document).on("click", '#uk-split', function(event) {
-            var url = 'action_userkey.php';
-            // abort any pending request
-            if (request) {
-                request.abort();
-            }
-
-            $("#split-files").empty();
+        var xorUrsStrands = function(url, ursfile, ukfile){
             // post to the backend script in ajax mode
-            var serializedData = 'userkey='+$('#key').val() + '&action=split';
-
+            var serializedData = 'ursFile='+ursfile+'&ukFile='+ukfile;
             // fire off the request
             request = $.ajax({
                 url: url,
                 type: "post",
                 datatype: "json",
                 data: serializedData
-            })
-                .done(function (result, textStatus, jqXHR){
+            });
+            return request;
+        };
 
-                    $("#split-files").html('<div class="row">\n' +
-                        '        <div class="col-md-12 order-md-1">' +
-                        '<ul class="list-group">\n' +
-                        '  <li class="list-group-item"><a href="uks/Exp Key 0.txt" id="download" download>Download Exp Key 0</a></li>\n' +
-                        '  <li class="list-group-item"><a href="uks/Exp Key 1.txt" id="download" download>Download Exp Key 1</a></li>\n' +
-                        '  <li class="list-group-item"><a href="uks/Exp Key 2.txt" id="download" download>Download Exp Key 2</a></li>\n' +
-                        '  <li class="list-group-item"><a href="uks/Exp Key 3.txt" id="download" download>Download Exp Key 3</a></li>\n' +
-                        '  <li class="list-group-item"><a href="uks/Exp Key 4.txt" id="download" download>Download Exp Key 4</a></li>\n' +
-                        '  <li class="list-group-item"><a href="uks/Exp Key 5.txt" id="download" download>Download Exp Key 5</a></li>\n' +
-                        '  <li class="list-group-item"><a href="uks/Exp Key 6.txt" id="download" download>Download Exp Key 6</a></li>\n' +
-                        '  <li class="list-group-item"><a href="uks/Exp Key 7.txt" id="download" download>Download Exp Key 7</a></li>\n' +
-                        '</ul>' +
-                        '</div>' +
-                        '</div>');
 
-                }).fail(function (jqXHR, textStatus, errorThrown){
-                    // log the error to the console
-                    console.error(
-                        "The following error occured: "+
-                        textStatus, errorThrown
-                    );
-                });
-
-            // prevent default posting of form
-            event.preventDefault();
-        });
     });
-</script>
+</script>-->
 
 </body>
 

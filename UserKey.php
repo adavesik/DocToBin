@@ -141,6 +141,8 @@ class UserKey
         $written = $file->fwrite($expanded_userkey);
         $written = $file->fwrite($remained_bits);
 
+        return "storage/userkey.txt";
+
     }
 
 

@@ -16,14 +16,16 @@ if (is_ajax()) {
 
                 $key = $uk->getUserKey();
                 $keydata = $uk->convertToBinary($key);
-                echo json_encode($keydata);
+                $uk_len = strlen($keydata);
+                echo json_encode($uk_len);
                 break;
 
 
             case "expand":
                 $key = $uk->getUserKey();
                 $keydata = $uk->convertToBinary($key);
-                $uk->expandUserKey($keydata);
+                $val = $uk->expandUserKey($keydata);
+                echo json_encode($val);
                 break;
 
             case "split":

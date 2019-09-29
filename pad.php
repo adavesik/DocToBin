@@ -25,7 +25,7 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">Start Cipher Modules</div>
+        <div class="sidebar-heading">Cipher Modules</div>
         <div class="list-group list-group-flush">
             <a href="index_n.php" class="list-group-item list-group-item-action bg-light">Convert File to Binary</a>
             <a href="bin2file.php" class="list-group-item list-group-item-action bg-light">Binary to File</a>
@@ -52,32 +52,47 @@
         </nav>
 
         <div class="py-5 text-center">
-            <h2 style="color: #007bff">XOR Extended UK with URS </h2>
-            <p class="lead">Below is a form for generating modified URS.</p>
+            <h2 style="color: #007bff">Single Pad! </h2>
+            <p class="lead">Below is a form for Single Pad generation.</p>
         </div>
 
         <div class="row ml-2">
             <div class="col-md-8 order-md-1">
-                <form enctype="multipart/form-data" id="xorForm" >
+                <form enctype="multipart/form-data" id="krr" >
                     <hr class="mb-4">
                     <div class="form-group">
-                        <label for="file">Extended UK File</label>
-                        <input type="file" class="form-control" id="uk-file" name="uk-file" required />
-                        <label for="file">Universal Random Sequence File</label>
-                        <input type="file" class="form-control" id="urs-file" name="urs-file" required />
+                        <label for="file">KRR 0</label>
+                        <input type="file" class="form-control" id="krr0" name="krr0" required />
+
+                        <label for="file">KRR 1</label>
+                        <input type="file" class="form-control" id="krr1" name="krr1" required />
+
+                        <label for="file">KRR 2</label>
+                        <input type="file" class="form-control" id="krr2" name="krr2" required />
+
+                        <label for="file">KRR 3</label>
+                        <input type="file" class="form-control" id="krr3" name="krr3" required />
+
+                        <label for="file">KRR 4</label>
+                        <input type="file" class="form-control" id="krr4" name="krr4" required />
+
+                        <label for="file">KRR 5</label>
+                        <input type="file" class="form-control" id="krr5" name="krr5" required />
+
+                        <label for="file">KRR 6</label>
+                        <input type="file" class="form-control" id="krr6" name="krr6" required />
+
+                        <label for="file">KRR 7</label>
+                        <input type="file" class="form-control" id="krr7" name="krr7" required />
                     </div>
-                    <select class="custom-select" id="bitwise" name="bitwise">
-                        <option value="" selected>Please select logical operation method</option>
-                        <option value=1> XOR </option>
-                        <option value=0> XNOR </option>
-                    </select>
                     <hr class="mb-4">
-                    <input type="submit" name="submit" class="btn btn-danger submitBtn" value="Submit"/>
+                    <input type="submit" name="submit" class="btn btn-danger" value="Submit"/>
                 </form>
-                <span id="mURS"></span>
+                <span id="for-krr"></span>
 
             </div>
         </div>
+
 
     </div>
 </div>
@@ -126,11 +141,11 @@
 
 <script>
     $(document).ready(function(e){
-        $("#xorForm").on('submit', function(e){
+        $("#krr").on('submit', function(e){
             e.preventDefault();
             $.ajax({
                 type: 'POST',
-                url: 'action_xor.php',
+                url: 'action_pad.php',
                 data: new FormData(this),
                 contentType: false,
                 cache: false,
@@ -139,18 +154,10 @@
 
                     var jsonData = JSON.parse(data);
 
-                    $('#xorForm').css("opacity","");
+                    $('#krr').css("opacity","");
                     $(".submitBtn").removeAttr("disabled");
 
-                    if(jsonData == 1){
-                        var notif = "Will be used XOR";
-                    }
-                    else {
-                        notif = "Will be used XNOR";
-                    }
-
-                    $("#mURS").html('<h5><span class="Clavander">User Keys 185_th bit is: ' + jsonData +'</span>'+notif+'</h5>' +
-                        '<a href="storage/XOR_URS.txt" id="download" download>Download generated URS file</a>');
+                    $("#for-krr").html('<h5><span class="Clavander">Rearranging Points are: </span>'+jsonData+'</h5>');
                 }
             });
         });

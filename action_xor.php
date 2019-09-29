@@ -6,8 +6,14 @@ require_once "UserKey.php";
 $xoring = new XORClass();
 
 if (is_ajax()) {
+
+    if(!empty($_POST['ursFile']) && !empty($_POST['ukFile'])) {
+        $ret = $xoring->XorFiles($_POST['ursFile'], $_POST['ukFile'], 1);
+        echo json_encode($ret);
+    }
+
     //echo json_encode(var_dump($_FILES));
-    if ($_FILES['uk-file']['error'] == UPLOAD_ERR_OK               //checks for errors
+    if (!empty($_FILES['uk-file']['error']) == UPLOAD_ERR_OK               //checks for errors
         && is_uploaded_file($_FILES['uk-file']['tmp_name'])) { //checks that file is uploaded
         //$uk_file = file_get_contents($_FILES['uk-file']['tmp_name']);
         //$urs_file = file_get_contents($_FILES['urs-file']['tmp_name']);

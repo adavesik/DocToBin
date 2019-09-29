@@ -25,7 +25,7 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">Start Cipher Modules </div>
+        <div class="sidebar-heading">Cipher Modules </div>
         <div class="list-group list-group-flush">
             <a href="index_n.php" class="list-group-item list-group-item-action bg-light">Convert File to Binary</a>
             <a href="bin2file.php" class="list-group-item list-group-item-action bg-light">Binary to File</a>
@@ -33,8 +33,8 @@
             <a href="universal_rnd_seq.php" class="list-group-item list-group-item-action bg-light">Universal Random Sequence</a>
             <a href="xor.php" class="list-group-item list-group-item-action bg-light">XOR</a>
             <a href="rearranging.php" class="list-group-item list-group-item-action bg-light">Rearranging</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Pad Generation</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Pads Autogeneration</a>
+            <a href="pad.php" class="list-group-item list-group-item-action bg-light">Pad Generation</a>
+            <a href="auto_pad.php" class="list-group-item list-group-item-action bg-light">Pads Autogeneration</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
