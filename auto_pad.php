@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div class="row ml-2" id="binary">
+        <div class="row ml-2" style="display: none" id="userbits">
             <div class="col-md-8 order-md-1">
                 <blockquote class="mint" id="userkeybinary">
                     <h5>User Key converted to <span class="Cmint">SixBit</span> binary form:</h5>
@@ -75,25 +75,61 @@
             </div>
         </div>
 
-        <div class="row ml-2">
+        <div class="row ml-2" style="display: none" id="userkey_dir">
             <div class="col-md-8 order-md-1">
-                <div class="input-group mb-3">
-                    <div class="">
-                        <button class="btn btn-info" name="expand" id="expand" type="button">Expand to 2^26 and Download</button>
-                    </div>
-                </div>
-                <span id="expandedfile"></span>
-            </div>
-        </div>
-
-        <div class="row ml-2" id="split-files">
-            <div class="col-md-8 order-md-1">
-                <blockquote class="mint">
-                    <h5>Bellow you can download <span class="Cmint">8</span> files:</h5>
-                    <span id="split-files"></span>
+                <blockquote class="grapefruit">
+                    <h5>User Key file located at: </h5>
+                    <span id="userkeydir"></span>
                 </blockquote>
             </div>
         </div>
+
+        <div class="row ml-2" style="display: none" id="urs_gen">
+            <div class="col-md-8 order-md-1">
+                <blockquote class="bittersweet">
+                    <h5>Universal Random Sequence successfully generated! </h5>
+                    <span id="uresgen"></span>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="row ml-2" style="display: none" id="xor_userkey_urs">
+            <div class="col-md-8 order-md-1">
+                <blockquote class="sunflower">
+                    <h5>User Key successfully XOR'd with the Universal Random Sequence! </h5>
+                    <span id="xoruserkeyurs"></span>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="row ml-2" style="display: none" id="split_into_8">
+            <div class="col-md-8 order-md-1">
+                <blockquote class="grass">
+                    <h5>Eight randomized keys successfully generated! </h5>
+                    <span id="splitinto8"></span>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="row ml-2" style="display: none" id="rearrange_points">
+            <div class="col-md-8 order-md-1">
+                <blockquote class="aqua">
+                    <h5>Eight randomized keys successfully rearranged by the bellow mentioned points! </h5>
+                    <span id="rearrangepoints"></span>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="row ml-2" style="display: none" id="pad_gen">
+            <div class="col-md-8 order-md-1">
+                <blockquote class="bluejeans">
+                    <h5>Finnaly - Pad is generated with the name of: </h5>
+                    <span id="padgen"></span>
+                </blockquote>
+            </div>
+        </div>
+
+        <button class="btn btn-warning ml-2" name="next-pad" id="next-pad" type="button" disabled>Generate Next Pad!!!!( THIS BUTTON WILL BE AVAILABLE IN FUTURE!!!!!!)</button>
 
 
     </div>
@@ -145,9 +181,11 @@
     $(document).ready(function() {
         var request;
         $(document).on("click", '#userkey', function(event) {
-            var url = 'action_userkey.php';
-            var ursUrl = 'action_urs.php';
-            var xorUrl = 'action_xor.php';
+            var url =          'action_userkey.php';
+            var ursUrl =       'action_urs.php';
+            var xorUrl =       'action_xor.php';
+            var rearrangeUrl = 'action_rearrange.php';
+            var padUrl       = 'action_pad.php';
             // abort any pending request
             if (request) {
                 request.abort();
@@ -159,6 +197,25 @@
 
             ursfile = 'storage/URS.txt';
             ukfile = 'storage/userkey.txt';
+
+            exp0 = 'uks/Exp Key 0.txt';
+            exp1 = 'uks/Exp Key 1.txt';
+            exp2 = 'uks/Exp Key 2.txt';
+            exp3 = 'uks/Exp Key 3.txt';
+            exp4 = 'uks/Exp Key 4.txt';
+            exp5 = 'uks/Exp Key 5.txt';
+            exp6 = 'uks/Exp Key 6.txt';
+            exp7 = 'uks/Exp Key 7.txt';
+
+
+            krr0 = 'strands/rearranged/0-KeyRandomizedRearranged.txt';
+            krr1 = 'strands/rearranged/1-KeyRandomizedRearranged.txt';
+            krr2 = 'strands/rearranged/2-KeyRandomizedRearranged.txt';
+            krr3 = 'strands/rearranged/3-KeyRandomizedRearranged.txt';
+            krr4 = 'strands/rearranged/4-KeyRandomizedRearranged.txt';
+            krr5 = 'strands/rearranged/5-KeyRandomizedRearranged.txt';
+            krr6 = 'strands/rearranged/6-KeyRandomizedRearranged.txt';
+            krr7 = 'strands/rearranged/7-KeyRandomizedRearranged.txt';
 
             var uk = $.ajax({
                     url: url,
@@ -197,20 +254,78 @@
             });
 
 
+            splitUserkey = xorUrsUserkey.then(function(data) {
+                // .then() returns a new promise
+                return $.ajax({
+                    url: url,
+                    type: "post",
+                    dataType: 'json',
+                    data: 'action=split'
+                });
+            });
+
+
+            rearrangeUserkey = splitUserkey.then(function(data) {
+                // .then() returns a new promise
+                return $.ajax({
+                    url: rearrangeUrl,
+                    type: "post",
+                    dataType: 'json',
+                    data: 'file0='+exp0+'&file1='+exp1+'&file2='+exp2+'&file3='+exp3+'&file4='+exp4+'&file5='+exp5+'&file6='+exp6+'&file7='+exp7
+                });
+            });
+
+
+            pad = rearrangeUserkey.then(function(data) {
+                // .then() returns a new promise
+                return $.ajax({
+                    url: padUrl,
+                    type: "post",
+                    dataType: 'json',
+                    data: 'krr0='+krr0+'&krr1='+krr1+'&krr2='+krr2+'&krr3='+krr3+'&krr4='+krr4+'&krr5='+krr5+'&krr6='+krr6+'&krr7='+krr7
+                });
+            });
+
+
 
             uk.done(function(data) {
+                $("#binarykey").html(data);
+                $('#userbits').css('display', '');
                 console.log(data);
             });
 
             uk2.done(function(data) {
+                $("#userkeydir").html(data);
+                $('#userkey_dir').css('display', '');
                 console.log(data);
             });
 
             urs.done(function(data) {
+                $('#urs_gen').css('display', '');
                 console.log(data);
             });
 
             xorUrsUserkey.done(function(data) {
+                $('#xor_userkey_urs').css('display', '');
+                console.log(data);
+            });
+
+            splitUserkey.done(function(data) {
+                $('#split_into_8').css('display', '');
+                console.log(data);
+            });
+
+            rearrangeUserkey.done(function(data) {
+                $("#rearrangepoints").html(data.map(function(value) {
+                    return('<span>' + value + '</span>');
+                }).join(" , "));
+                $('#rearrange_points').css('display', '');
+                console.log(data);
+            });
+
+            pad.done(function(data) {
+                $("#padgen").html(data);
+                $('#pad_gen').css('display', '');
                 console.log(data);
             });
 

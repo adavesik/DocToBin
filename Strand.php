@@ -12,14 +12,14 @@ class Strand
         $points = substr(rtrim($points_str),0);
         $points = explode(' ', $points);*/
 
-        $point0 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key0 2006-03-11.txt"));
-        $point1 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 1 2006-03-12.txt"));
-        $point2 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 2 2006-03-13.txt"));
-        $point3 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 3 2006-03-14.txt"));
-        $point4 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 4 2006-03-15.txt"));
-        $point5 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 5 2006-03-16.txt"));
-        $point6 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 6 2006-03-17.txt"));
-        $point7 = bindec(UserKey::getLast23Bits("sevadagray/SevadaGary Key 7 2006-03-18.txt"));
+        $point0 = bindec(UserKey::getLast23Bits("uks/Exp Key 0.txt"));
+        $point1 = bindec(UserKey::getLast23Bits("uks/Exp Key 1.txt"));
+        $point2 = bindec(UserKey::getLast23Bits("uks/Exp Key 2.txt"));
+        $point3 = bindec(UserKey::getLast23Bits("uks/Exp Key 3.txt"));
+        $point4 = bindec(UserKey::getLast23Bits("uks/Exp Key 4.txt"));
+        $point5 = bindec(UserKey::getLast23Bits("uks/Exp Key 5.txt"));
+        $point6 = bindec(UserKey::getLast23Bits("uks/Exp Key 6.txt"));
+        $point7 = bindec(UserKey::getLast23Bits("uks/Exp Key 7.txt"));
 
         $status = $this->rearrangeFile($filename0, "0-KeyRandomizedRearranged.txt", $point0);
         $status = $this->rearrangeFile($filename1, "1-KeyRandomizedRearranged.txt", $point1);

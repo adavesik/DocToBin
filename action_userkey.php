@@ -3,7 +3,7 @@
 require_once 'UserKey.php';
 
 if (is_ajax()) {
-    if (isset($_POST["userkey"])) { //Checks if action value exists (!empty($_POST["userkey"]))
+    if (isset($_POST["userkey"]) || isset($_POST["action"])) { //Checks if action value exists (!empty($_POST["userkey"]))
         $action = $_POST["action"];
         $userkey = $_POST["userkey"];
         $keydata = "";
@@ -16,8 +16,8 @@ if (is_ajax()) {
 
                 $key = $uk->getUserKey();
                 $keydata = $uk->convertToBinary($key);
-                $uk_len = strlen($keydata);
-                echo json_encode($uk_len);
+                //$uk_len = strlen($keydata);
+                echo json_encode($keydata);
                 break;
 
 
@@ -29,7 +29,8 @@ if (is_ajax()) {
                 break;
 
             case "split":
-                $uk->splitIntoEight("storage/userkey.txt");
+                $cnt = $uk->splitIntoEight("storage/XORed_UserKey.txt");
+                echo json_encode($cnt);
                 break;
         }
 

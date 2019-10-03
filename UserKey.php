@@ -177,7 +177,7 @@ class UserKey
         $status = fclose($handle);
 
         if ($retbytes && $status) {
-            return $cnt; // return num. bytes delivered like readfile() does.
+            return $file_num; // return num. bytes delivered like readfile() does.
         }
 
         return $status;
