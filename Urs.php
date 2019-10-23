@@ -3,9 +3,9 @@ require_once 'BigFile.php';
 
 class Urs
 {
-    public function makeURS($strand_0, $strand_1, $strand_2, $strand_3, $strand_4, $strand_5, $strand_6, $strand_7){
+    public function makeURS($strand_0, $strand_1, $strand_2, $strand_3, $strand_4, $strand_5, $strand_6, $strand_7, $output = "storage/URS.txt"){
 
-        $file = new SplFileObject("storage/URS.txt", "w");
+        $file = new SplFileObject($output, "w");
 
         $handle_0 = fopen($strand_0, 'rb');
         $handle_1 = fopen($strand_1, 'rb');

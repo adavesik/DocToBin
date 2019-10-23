@@ -35,6 +35,8 @@
             <a href="rearranging.php" class="list-group-item list-group-item-action bg-light">Rearranging</a>
             <a href="pad.php" class="list-group-item list-group-item-action bg-light">Pad Generation</a>
             <a href="auto_pad.php" class="list-group-item list-group-item-action bg-light">Pads Autogeneration</a>
+            <a href="auto_pad_file.php" class="list-group-item list-group-item-action bg-light">Upload UserKey as a File</a>
+            <a href="with_crs.php" class="list-group-item list-group-item-action bg-light">Using CRS</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

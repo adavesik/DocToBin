@@ -35,6 +35,7 @@
             <a href="rearranging.php" class="list-group-item list-group-item-action bg-light">Rearranging</a>
             <a href="pad.php" class="list-group-item list-group-item-action bg-light">Pad Generation</a>
             <a href="auto_pad.php" class="list-group-item list-group-item-action bg-light">Pads Autogeneration</a>
+            <a href="auto_pad_file.php" class="list-group-item list-group-item-action bg-light">Upload UserKey as a File</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -60,7 +61,7 @@
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="User Key" aria-label="User Key" id="key" aria-describedby="basic-addon2" maxlength="1666667">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-success" name="userkey" id="userkey" type="button">Convert To SixBit</button>
+                        <button class="btn btn-outline-success" name="userkey" id="userkey" type="button">Convert To SixBit & Generated Pad(s)</button>
                     </div>
                 </div>
             </div>
@@ -129,7 +130,7 @@
             </div>
         </div>
 
-        <button class="btn btn-warning ml-2" name="next-pad" id="next-pad" type="button" disabled>Generate Next Pad!!!!( THIS BUTTON WILL BE AVAILABLE IN FUTURE!!!!!!)</button>
+        <!--<button class="btn btn-warning ml-2" name="next-pad" id="next-pad" type="button" disabled>Generate Next Pad!!!!( THIS BUTTON WILL BE AVAILABLE IN FUTURE!!!!!!)</button>-->
 
 
     </div>
@@ -195,139 +196,138 @@
             var key = $('#key').val();
             key = key.replace(/\+/g, "%2B");
 
-            ursfile = 'storage/URS.txt';
-            ukfile = 'storage/userkey.txt';
+                ursfile = 'storage/URS.txt';
+                ukfile = 'storage/userkey.txt';
 
-            exp0 = 'uks/Exp Key 0.txt';
-            exp1 = 'uks/Exp Key 1.txt';
-            exp2 = 'uks/Exp Key 2.txt';
-            exp3 = 'uks/Exp Key 3.txt';
-            exp4 = 'uks/Exp Key 4.txt';
-            exp5 = 'uks/Exp Key 5.txt';
-            exp6 = 'uks/Exp Key 6.txt';
-            exp7 = 'uks/Exp Key 7.txt';
+                exp0 = 'uks/Exp Key 0.txt';
+                exp1 = 'uks/Exp Key 1.txt';
+                exp2 = 'uks/Exp Key 2.txt';
+                exp3 = 'uks/Exp Key 3.txt';
+                exp4 = 'uks/Exp Key 4.txt';
+                exp5 = 'uks/Exp Key 5.txt';
+                exp6 = 'uks/Exp Key 6.txt';
+                exp7 = 'uks/Exp Key 7.txt';
 
 
-            krr0 = 'strands/rearranged/0-KeyRandomizedRearranged.txt';
-            krr1 = 'strands/rearranged/1-KeyRandomizedRearranged.txt';
-            krr2 = 'strands/rearranged/2-KeyRandomizedRearranged.txt';
-            krr3 = 'strands/rearranged/3-KeyRandomizedRearranged.txt';
-            krr4 = 'strands/rearranged/4-KeyRandomizedRearranged.txt';
-            krr5 = 'strands/rearranged/5-KeyRandomizedRearranged.txt';
-            krr6 = 'strands/rearranged/6-KeyRandomizedRearranged.txt';
-            krr7 = 'strands/rearranged/7-KeyRandomizedRearranged.txt';
+                krr0 = 'strands/rearranged/0-KeyRandomizedRearranged.txt';
+                krr1 = 'strands/rearranged/1-KeyRandomizedRearranged.txt';
+                krr2 = 'strands/rearranged/2-KeyRandomizedRearranged.txt';
+                krr3 = 'strands/rearranged/3-KeyRandomizedRearranged.txt';
+                krr4 = 'strands/rearranged/4-KeyRandomizedRearranged.txt';
+                krr5 = 'strands/rearranged/5-KeyRandomizedRearranged.txt';
+                krr6 = 'strands/rearranged/6-KeyRandomizedRearranged.txt';
+                krr7 = 'strands/rearranged/7-KeyRandomizedRearranged.txt';
 
-            var uk = $.ajax({
-                    url: url,
-                    type: "post",
-                    dataType: 'json',
-                    data: 'userkey='+key + '&action=convert'
-                }),
-                uk2 = uk.then(function(data) {
+                var uk = $.ajax({
+                        url: url,
+                        type: "post",
+                        dataType: 'json',
+                        data: 'userkey=' + key + '&action=convert'
+                    }),
+                    uk2 = uk.then(function (data) {
+                        // .then() returns a new promise
+                        return $.ajax({
+                            url: url,
+                            type: "post",
+                            dataType: 'json',
+                            data: 'userkey=' + key + '&action=expand'
+                        });
+                    });
+
+                urs = uk2.then(function (data) {
+                    // .then() returns a new promise
+                    return $.ajax({
+                        url: 'action_urs.php',
+                        type: "post",
+                        dataType: 'json',
+                        data: 'action=combine'
+                    });
+                });
+
+                xorUrsUserkey = urs.then(function (data) {
+                    // .then() returns a new promise
+                    return $.ajax({
+                        url: 'action_xor.php',
+                        type: "post",
+                        dataType: 'json',
+                        data: 'ursFile=' + ursfile + '&ukFile=' + ukfile
+                    });
+                });
+
+
+                splitUserkey = xorUrsUserkey.then(function (data) {
                     // .then() returns a new promise
                     return $.ajax({
                         url: url,
                         type: "post",
                         dataType: 'json',
-                        data: 'userkey='+key + '&action=expand'
+                        data: 'action=split'
                     });
                 });
 
-            urs = uk2.then(function(data) {
-                // .then() returns a new promise
-                return $.ajax({
-                    url: 'action_urs.php',
-                    type: "post",
-                    dataType: 'json',
-                    data: 'action=combine'
+
+                rearrangeUserkey = splitUserkey.then(function (data) {
+                    // .then() returns a new promise
+                    return $.ajax({
+                        url: rearrangeUrl,
+                        type: "post",
+                        dataType: 'json',
+                        data: 'file0=' + exp0 + '&file1=' + exp1 + '&file2=' + exp2 + '&file3=' + exp3 + '&file4=' + exp4 + '&file5=' + exp5 + '&file6=' + exp6 + '&file7=' + exp7
+                    });
                 });
-            });
 
-            xorUrsUserkey = urs.then(function(data) {
-                // .then() returns a new promise
-                return $.ajax({
-                    url: 'action_xor.php',
-                    type: "post",
-                    dataType: 'json',
-                    data: 'ursFile='+ursfile+'&ukFile='+ukfile
+
+                pad = rearrangeUserkey.then(function (data) {
+                    // .then() returns a new promise
+                    return $.ajax({
+                        url: padUrl,
+                        type: "post",
+                        dataType: 'json',
+                        data: 'krr0=' + krr0 + '&krr1=' + krr1 + '&krr2=' + krr2 + '&krr3=' + krr3 + '&krr4=' + krr4 + '&krr5=' + krr5 + '&krr6=' + krr6 + '&krr7=' + krr7
+                    });
                 });
-            });
 
 
-            splitUserkey = xorUrsUserkey.then(function(data) {
-                // .then() returns a new promise
-                return $.ajax({
-                    url: url,
-                    type: "post",
-                    dataType: 'json',
-                    data: 'action=split'
+                uk.done(function (data) {
+                    $("#binarykey").html(data);
+                    $('#userbits').css('display', '');
+                    console.log(data);
                 });
-            });
 
-
-            rearrangeUserkey = splitUserkey.then(function(data) {
-                // .then() returns a new promise
-                return $.ajax({
-                    url: rearrangeUrl,
-                    type: "post",
-                    dataType: 'json',
-                    data: 'file0='+exp0+'&file1='+exp1+'&file2='+exp2+'&file3='+exp3+'&file4='+exp4+'&file5='+exp5+'&file6='+exp6+'&file7='+exp7
+                uk2.done(function (data) {
+                    $("#userkeydir").html(data);
+                    $('#userkey_dir').css('display', '');
+                    console.log(data);
                 });
-            });
 
-
-            pad = rearrangeUserkey.then(function(data) {
-                // .then() returns a new promise
-                return $.ajax({
-                    url: padUrl,
-                    type: "post",
-                    dataType: 'json',
-                    data: 'krr0='+krr0+'&krr1='+krr1+'&krr2='+krr2+'&krr3='+krr3+'&krr4='+krr4+'&krr5='+krr5+'&krr6='+krr6+'&krr7='+krr7
+                urs.done(function (data) {
+                    $('#urs_gen').css('display', '');
+                    console.log(data);
                 });
-            });
 
+                xorUrsUserkey.done(function (data) {
+                    $('#xor_userkey_urs').css('display', '');
+                    console.log(data);
+                });
 
+                splitUserkey.done(function (data) {
+                    $('#split_into_8').css('display', '');
+                    console.log(data);
+                });
 
-            uk.done(function(data) {
-                $("#binarykey").html(data);
-                $('#userbits').css('display', '');
-                console.log(data);
-            });
+                rearrangeUserkey.done(function (data) {
+                    $("#rearrangepoints").html(data.map(function (value) {
+                        return ('<span>' + value + '</span>');
+                    }).join(" , "));
+                    $('#rearrange_points').css('display', '');
+                    console.log(data);
+                });
 
-            uk2.done(function(data) {
-                $("#userkeydir").html(data);
-                $('#userkey_dir').css('display', '');
-                console.log(data);
-            });
-
-            urs.done(function(data) {
-                $('#urs_gen').css('display', '');
-                console.log(data);
-            });
-
-            xorUrsUserkey.done(function(data) {
-                $('#xor_userkey_urs').css('display', '');
-                console.log(data);
-            });
-
-            splitUserkey.done(function(data) {
-                $('#split_into_8').css('display', '');
-                console.log(data);
-            });
-
-            rearrangeUserkey.done(function(data) {
-                $("#rearrangepoints").html(data.map(function(value) {
-                    return('<span>' + value + '</span>');
-                }).join(" , "));
-                $('#rearrange_points').css('display', '');
-                console.log(data);
-            });
-
-            pad.done(function(data) {
-                $("#padgen").html(data);
-                $('#pad_gen').css('display', '');
-                console.log(data);
-            });
+                pad.done(function (data) {
+                    $("#padgen").html(data);
+                    $('#pad_gen').css('display', '');
+                    console.log(data);
+                });
 
             // prevent default posting of form
             event.preventDefault();

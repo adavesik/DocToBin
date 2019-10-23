@@ -34,7 +34,31 @@ if (is_ajax()) {
                 break;
         }
 
-    }}
+    }
+
+    elseif ( $_FILES['file']['error'] == UPLOAD_ERR_OK               //checks for errors
+        && is_uploaded_file($_FILES['file']['tmp_name']) ) {
+
+        $userKeyFile = $_FILES['file']['tmp_name'];
+        $keySize = UserKey::getUserKeyLenght($userKeyFile);
+
+        if ($keySize < 67108864){
+            $key = file_get_contents($userKeyFile);
+            $uk = new UserKey($key);
+            //$keydata = $uk->convertToBinary($key);
+            $val = $uk->expandUserKey($key);
+            echo json_encode($val);
+        }
+        else{
+            if(move_uploaded_file($_FILES[$userKeyFile]["tmp_name"],"storage/userkey.txt")){
+                echo json_encode("storage/userkey.txt");
+            }else{
+                echo json_encode("Upload failed , try later !");
+            }
+        }
+
+    }
+}
 
 
 /*-------------------------------------------------*/

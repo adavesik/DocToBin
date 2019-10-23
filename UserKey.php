@@ -146,7 +146,7 @@ class UserKey
     }
 
 
-    public function splitIntoEight($filename, $retbytes = TRUE){
+    public function splitIntoEight($filename, $output = "uks", $retbytes = TRUE){
         $buffer = '';
         $cnt    = 0;
         $file_num = 0;
@@ -160,7 +160,7 @@ class UserKey
             $buffer = fread($handle, self::SPLIT_SIZE);
 
             if(!empty($buffer)){
-                $file = new SplFileObject("uks/Exp Key {$file_num}.txt", "w");
+                $file = new SplFileObject("{$output}/Exp Key {$file_num}.txt", "w");
                 $written = $file->fwrite($buffer);
 
                 $file_num++;
@@ -298,6 +298,75 @@ class UserKey
         }
 
         return $status;
+    }
+
+
+    public static function getFirst24Bit($filename, $retbytes = true){
+        $buffer = '';
+        $cnt    = 0;
+        $handle = fopen($filename, 'rb');
+
+        if ($handle === false) {
+            return false;
+        }
+
+        $buffer = fread($handle, 24);
+
+        ob_flush();
+        flush();
+
+        if ($retbytes) {
+            $cnt += strlen($buffer);
+        }
+
+        $status = fclose($handle);
+
+        if ($retbytes && $status) {
+            return $buffer[23]; // return num. bytes delivered like readfile() does.
+        }
+
+        return $status;
+    }
+
+
+    public static function getFirst6Bits($filename, $retbytes = true){
+        $buffer = '';
+        $cnt    = 0;
+        $handle = fopen($filename, 'rb');
+
+        if ($handle === false) {
+            return false;
+        }
+
+        $buffer = fread($handle, 6);
+
+        ob_flush();
+        flush();
+
+        if ($retbytes) {
+            $cnt += strlen($buffer);
+        }
+
+        $status = fclose($handle);
+
+        if ($retbytes && $status) {
+            return $buffer; // return num. bytes delivered like readfile() does.
+        }
+
+        return $status;
+    }
+
+
+    public static function getUserKeyLenght($filename){
+        $content = file_get_contents($filename);
+
+        if (function_exists('mb_strlen')) {
+            $size = mb_strlen($content, '8bit');
+        } else {
+            $size = strlen($content);
+        }
+
+        return $size;
     }
 
 

@@ -6,6 +6,8 @@ require_once "UserKey.php";
 require_once "HelperClass.php";
 require_once "Urs.php";
 require_once "Strand.php";
+require_once "CRS.php";
+require_once "XORClass.php";
 
 function stringToBinary($string)
 {
@@ -289,8 +291,50 @@ $strand = new Strand();
 
 //echo xnor(0, 0);
 
+echo $uk->getUserKeyLenght("storage/URS.txt");
+echo "<br />\n";
+
+$filename = "tmp/KRP0.txt";
+echo str_replace("P", "R"."P", substr($filename, 4, strlen($filename)))."<br />\n";
 
 
+$crs = new CRS();
+$xor = new XORClass();
+
+$crs->setStrandsDir("strands/");
+$strands = $crs->getStrandsList("/\.txt$/");
+
+for($i = 0; $i < 4; $i++){
+    $seq = $crs->getEvery184Bits('strands/0-2019-08-03.txt', $i);
+    $points = $crs->getRearrangingPoints($seq);
+    $crs->rearrangeManyFiles($strands[0]['name'], $strands[1]['name'], $strands[2]['name'], $strands[3]['name'], $strands[4]['name'], $strands[5]['name'], $strands[6]['name'], $strands[7]['name'], $i, $points);
+
+    $crs->setStrandsDir("crs/rearranged_strands/");
+    $rearrangedStrands = $crs->getStrandsList("/\.txt$/");
+
+    $xor->XorFiles($rearrangedStrands[0]['name'], $rearrangedStrands[1]['name'], 1, "crs/xored_strands/KRR0+1.txt");
+    $xor->XorFiles("crs/xored_strands/KRR0+1.txt", $rearrangedStrands[2]['name'], 1, "crs/xored_strands/KRR0+1+2.txt");
+    $xor->XorFiles("crs/xored_strands/KRR0+1+2.txt", $rearrangedStrands[3]['name'], 1, "crs/xored_strands/KRR0+1+2+3.txt");
+    $xor->XorFiles("crs/xored_strands/KRR0+1+2+3.txt", $rearrangedStrands[4]['name'], 1, "crs/xored_strands/KRR0+1+2+3+4.txt");
+    $xor->XorFiles("crs/xored_strands/KRR0+1+2+3+4.txt", $rearrangedStrands[5]['name'], 1, "crs/xored_strands/KRR0+1+2+3+4+5.txt");
+    $xor->XorFiles("crs/xored_strands/KRR0+1+2+3+4+5.txt", $rearrangedStrands[6]['name'], 1, "crs/xored_strands/KRR0+1+2+3+4+5+6.txt");
+    $xor->XorFiles("crs/xored_strands/KRR0+1+2+3+4+5+6.txt", $rearrangedStrands[7]['name'], 1, "crs/xored_strands/KRR0+1+2+3+4+5+6+7.txt");
+
+    $padName = "crs".$i.".txt";
+    if (!copy("crs/xored_strands/KRR0+1+2+3+4+5+6+7.txt", "crs/".$padName)) {
+        echo "failed to copy file...\n";
+    }
+
+    echo json_encode("crs/$padName");
+}
+
+
+
+//print_r($crs->getStrandsList("/\.txt$/"));
+
+//$seq = $crs->getEvery184Bits('strands/0-2019-08-03.txt', 1);
+
+//print_r($crs->getRearrangingPoints($seq));
 
 // End clock time in seconds
 $end_time = microtime(true);
