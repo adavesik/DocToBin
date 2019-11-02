@@ -37,6 +37,7 @@
             <a href="auto_pad.php" class="list-group-item list-group-item-action bg-light">Pads Autogeneration</a>
             <a href="auto_pad_file.php" class="list-group-item list-group-item-action bg-light">Upload UserKey as a File</a>
             <a href="with_crs.php" class="list-group-item list-group-item-action bg-light">Using CRS</a>
+            <a href="user_freestand.php" class="list-group-item list-group-item-action bg-light">Free For Users</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

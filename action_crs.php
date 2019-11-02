@@ -42,32 +42,52 @@ if (is_ajax()) {
 
     }
 
+    PSP("prs/0-prs.txt");
+    PSP("prs/1-prs.txt");
+    PSP("prs/2-prs.txt");
+    PSP("prs/3-prs.txt");
+    PSP("prs/4-prs.txt");
+    PSP("prs/5-prs.txt");
+    PSP("prs/6-prs.txt");
+    PSP("prs/7-prs.txt");
+
     //Step 2 - PRS
     $res = $urs->makeURS("prs/0-prs.txt", "prs/1-prs.txt", "prs/2-prs.txt",
         "prs/3-prs.txt", "prs/4-prs.txt", "prs/5-prs.txt",
         "prs/6-prs.txt", "prs/7-prs.txt", "prs/PRS.txt");
 
-    /*TODO
-    get User Key first six bit and 24th bit
-    */
+
     $point = bindec(UserKey::getFirst6Bits("storage/userkey.txt"));
     $combining_method = UserKey::getFirst24Bit("storage/userkey.txt");
 
     if($point>=0 && $point<=15){
         $crs = "crs/crs0.txt";
+        PSP($crs);
     }
     elseif ($point>=16 && $point<=31){
         $crs = "crs/crs1.txt";
+        PSP($crs);
     }
     elseif ($point>=32 && $point<=47){
         $crs = "crs/crs2.txt";
+        PSP($crs);
     }
     elseif ($point>=48 && $point<=63){
         $crs = "crs/crs3.txt";
+        PSP($crs);
     }
 
     //Step 3 - XOR USerKey with URS
     $cnt = $uk->splitIntoEight("storage/userkey.txt", "tmp");
+
+    PSP("tmp/Exp Key 0.txt");
+    PSP("tmp/Exp Key 1.txt");
+    PSP("tmp/Exp Key 2.txt");
+    PSP("tmp/Exp Key 3.txt");
+    PSP("tmp/Exp Key 4.txt");
+    PSP("tmp/Exp Key 5.txt");
+    PSP("tmp/Exp Key 6.txt");
+    PSP("tmp/Exp Key 7.txt");
 
     $ret = $xor->XorFiles($crs, "tmp/Exp Key 0.txt", $combining_method, "tmp/xored.txt");
     $res = $urs->makeURS("tmp/xored.txt", "tmp/Exp Key 1.txt", "tmp/Exp Key 2.txt",
@@ -205,4 +225,43 @@ if (is_ajax()) {
 //Function to check if the request is an AJAX request
 function is_ajax() {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+}
+
+//Prime Set Permutation
+function PSP($filename){
+    $handle = fopen($filename, 'rb');
+
+    if ($handle === false) {
+        return false;
+    }
+
+    $buffer = fread($handle, filesize($filename));
+
+    $start = substr($buffer, 0, 23);
+    $start = bindec($start);
+
+    $jump = substr($buffer, 23, 23);
+    $jump = bindec($jump);
+
+    if($jump == 0){
+        $jump = 1;
+    }
+
+    $buffer = $buffer."zzzzzzzzz";
+
+    $file = new SplFileObject($filename, "w");
+
+    $index = $start;
+
+    $data = $buffer[$start];
+
+    for ($i = 0; $i < 8388616; $i++) {
+
+        $index = ($index+$jump)%8388617;
+        $data.= $buffer[$index];
+        //echo $buffer[$index];
+    }
+    $data = preg_replace("/z/", "", $data);
+    $written = $file->fwrite($data);
+    fclose($file);
 }

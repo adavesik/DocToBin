@@ -301,7 +301,9 @@ echo str_replace("P", "R"."P", substr($filename, 4, strlen($filename)))."<br />\
 $crs = new CRS();
 $xor = new XORClass();
 
-$crs->setStrandsDir("strands/");
+PSP("tmp/Exp Key 2.txt", 3658, 62325);
+
+/*$crs->setStrandsDir("strands/");
 $strands = $crs->getStrandsList("/\.txt$/");
 
 for($i = 0; $i < 4; $i++){
@@ -326,7 +328,7 @@ for($i = 0; $i < 4; $i++){
     }
 
     echo json_encode("crs/$padName");
-}
+}*/
 
 
 
@@ -343,3 +345,49 @@ $end_time = microtime(true);
 $execution_time = ($end_time - $start_time);
 
 echo " Execution time of script = ".$execution_time." sec";
+
+
+
+function PSP($filename){
+    $handle = fopen($filename, 'rb');
+
+    if ($handle === false) {
+        return false;
+    }
+
+    $buffer = fread($handle, filesize($filename));
+
+    $start = substr($buffer, 0, 23);
+    $start = bindec($start);
+
+    $jump = substr($buffer, 23, 23);
+    $jump = bindec($jump);
+
+    if($jump == 0){
+        $jump = 1;
+    }
+
+    $buffer = $buffer."zzzzzzzzz";
+
+    $file = new SplFileObject($filename, "w");
+
+    $index = $start;
+
+    $data = $buffer[$start];
+
+    for ($i = 0; $i < 8388616; $i++) {
+
+        $index = ($index+$jump)%8388617;
+        $data.= $buffer[$index];
+        //echo $buffer[$index];
+    }
+    $data = preg_replace("/z/", "", $data);
+    $written = $file->fwrite($data);
+    fclose($file);
+
+
+    echo $start;
+    echo "<br>";
+    echo $jump;
+
+}

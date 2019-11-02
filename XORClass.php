@@ -4,6 +4,7 @@
 class XORClass
 {
     const CHUNK_SIZE = 1048576;
+    //const CHUNK_SIZE = 1024;
 
     public function XorFiles($filename1, $filename2, $method, $output = "storage/XORed_UserKey.txt", $retbytes = TRUE){
         $file = new SplFileObject($output, "w");

@@ -129,7 +129,7 @@ class UserKey
     }
 
 
-    public function expandUserKey($userkey){
+    public function expandUserKey($userkey, $output = "storage/userkey.txt"){
 
         $int_part = (self::EXPAND_LEN - self::EXPAND_LEN % strlen($userkey)) / strlen($userkey); //get integer part of divided, eg. 2^26/18 = 3728270
         $remained =  self::EXPAND_LEN - strlen($userkey)*$int_part;                              //get remained part, eg 4
@@ -137,11 +137,11 @@ class UserKey
 
         $expanded_userkey = str_repeat($userkey, $int_part);
 
-        $file = new SplFileObject("storage/userkey.txt", "w");
+        $file = new SplFileObject($output, "w");
         $written = $file->fwrite($expanded_userkey);
         $written = $file->fwrite($remained_bits);
 
-        return "storage/userkey.txt";
+        return $output;
 
     }
 

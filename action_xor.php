@@ -2,6 +2,7 @@
 
 require_once "XORClass.php";
 require_once "UserKey.php";
+require_once "HelperClass.php";
 
 $xoring = new XORClass();
 
@@ -23,6 +24,34 @@ if (is_ajax()) {
 
         $ret = $xoring->XorFiles($_FILES['uk-file']['tmp_name'], $_FILES['urs-file']['tmp_name'], $bit);
         echo json_encode($bit);
+    }
+
+    //echo json_encode(var_dump($_FILES));
+    if (!empty($_FILES['file-one']['error']) == UPLOAD_ERR_OK               //checks for errors
+        && is_uploaded_file($_FILES['file-one']['tmp_name'])) { //checks that file is uploaded
+
+        $bit = $_POST['bitwise'];
+
+        $file_one_size = filesize($_FILES['file-one']['tmp_name']);
+        $file_two_size = filesize($_FILES['file-two']['tmp_name']);
+
+        if($file_one_size == $file_two_size){
+            $ret = $xoring->XorFiles($_FILES['file-one']['tmp_name'], $_FILES['file-two']['tmp_name'], $bit, "userfiles/genfile.txt");
+            echo json_encode($bit);
+        }
+        elseif ($file_one_size < $file_two_size){
+            $file_one = file_get_contents($_FILES['file-one']['tmp_name']);
+            HelperClass::expandFile($file_one, $file_two_size, "userfiles/expanded file.txt");
+            $ret = $xoring->XorFiles("userfiles/expanded file.txt", $_FILES['file-two']['tmp_name'], $bit, "userfiles/genfile.txt");
+            echo json_encode($bit);
+        }
+        elseif ($file_one_size > $file_two_size){
+            $file_two = file_get_contents($_FILES['file-two']['tmp_name']);
+            HelperClass::expandFile($file_two, $file_one_size, "userfiles/expanded file.txt");
+            $ret = $xoring->XorFiles("userfiles/expanded file.txt", $_FILES['file-one']['tmp_name'], $bit, "userfiles/genfile.txt");
+            echo json_encode($bit);
+        }
+
     }
 
     }

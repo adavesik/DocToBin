@@ -139,4 +139,22 @@ class HelperClass
         $characters = HelperClass::str_split_unicode($string, 1);
         return sizeof($characters);
     }
+
+
+    public static function expandFile($filename, $expandlen, $output = "storage/userkey.txt"){
+
+        $int_part = ($expandlen - $expandlen % strlen($filename)) / strlen($filename); //get integer part of divided, eg. 2^26/18 = 3728270
+        $remained =  $expandlen - strlen($filename)*$int_part;                              //get remained part, eg 4
+        $remained_bits = substr($filename, 0, $remained);                                   //get remained bits
+
+        $expanded_userkey = str_repeat($filename, $int_part);
+
+        $file = new SplFileObject($output, "w");
+        $written = $file->fwrite($expanded_userkey);
+        $written = $file->fwrite($remained_bits);
+
+        return $output;
+
+    }
+
 }

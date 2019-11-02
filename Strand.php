@@ -77,7 +77,7 @@ class Strand
 
 
 
-    public function rearrangeFile($filename, $origname, $point){
+    public function rearrangeFile($filename, $origname, $point, $output = "strands/rearranged/"){
 
         $fname = substr(strrchr($filename, "/"), 1);
         $handle = fopen($filename, 'rb');
@@ -92,7 +92,7 @@ class Strand
         $end_bits = substr($buffer, $point, strlen($buffer));
         $new_strand = $end_bits.$start_bits;
 
-        $file = new SplFileObject("strands/rearranged/$origname", "w");
+        $file = new SplFileObject($output.$origname, "w");
         $written = $file->fwrite($new_strand);
 
         ob_flush();

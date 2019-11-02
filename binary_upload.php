@@ -10,7 +10,7 @@ $uploader = new UploaderClass();
 
 $uploader->setDir($configs['uploaddir']);
 
-$uploader->setExtensions(array('txt'));                    //allowed extensions list
+$uploader->setExtensions(array('txt', 'ge1'));                    //allowed extensions list
 
 $uploader->setMaxSize(125);                        //set max file size to be allowed in MB//
 
@@ -42,7 +42,7 @@ if($uploader->uploadFile('binaryfile')){         //txtFile is the filebrowse ele
     rename('storage/back_file_raw.txt', 'storage/converted/generatedFile'.$fileExtension);
 
     echo json_encode(['input_file'=>"/doc2bin/storage/".$document, 'only_name'=>$document, 'binary'=>"/doc2bin/storage/converted/bindata.txt", 'tmp_b64'=>"/doc2bin/storage/converted/temp.txt", 'back_b64'=>"/doc2bin/storage/converted/final_base64.txt",
-        'final_doc'=>"/doc2bin/storage/converted/generatedFile".$fileExtension]);
+        'final_doc'=>"/doctobin/storage/converted/generatedFile".$fileExtension]);
 
 
 }else{//upload failed

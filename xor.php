@@ -36,6 +36,10 @@
             <a href="pad.php" class="list-group-item list-group-item-action bg-light">Pad Generation</a>
             <a href="auto_pad.php" class="list-group-item list-group-item-action bg-light">Pads Autogeneration</a>
             <a href="auto_pad_file.php" class="list-group-item list-group-item-action bg-light">Upload UserKey as a File</a>
+            <a href="with_crs.php" class="list-group-item list-group-item-action bg-light">Using CRS</a>
+            <a href="user_freestand.php" class="list-group-item list-group-item-action bg-light">Free For Users</a>
+            <a href="enc.php" class="list-group-item list-group-item-action bg-light">Encrypt</a>
+            <a href="dec.php" class="list-group-item list-group-item-action bg-light">Decrypt</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
