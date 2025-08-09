@@ -47,18 +47,6 @@
                     </div>
                     <span class="text-muted" id="binary"></span>
                 </li>
-<!--                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                        <h6 class="my-0">Back converted b64 file</h6>
-                    </div>
-                    <span class="text-muted" id="back64"></span>
-                </li>-->
-<!--                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <div>
-                        <h6 class="my-0">New Word file</h6>
-                    </div>
-                    <span class="text-muted" id="final_doc"></span>
-                </li>-->
             </ul>
         </div>
         <div class="col-md-8 order-md-1">

@@ -1,12 +1,12 @@
 <?php
 
 $configs = include('config.php');
+// This file is part of the doctobin project.
 require_once 'ConverterClass.php';
 require_once 'UploaderClass.php';
 
 $docFile = new ConverterClass();
 $uploader = new UploaderClass();
-
 
 $uploader->setDir($configs['uploaddir']);
 

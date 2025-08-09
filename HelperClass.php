@@ -2,7 +2,6 @@
 
 class HelperClass
 {
-
     public static function str_split_unicode($str, $l = 0) {
         if ($l > 0) {
             $ret = array();
@@ -14,7 +13,6 @@ class HelperClass
         }
         return preg_split("/\R/", $str, -1, PREG_SPLIT_NO_EMPTY);
     }
-
 
     public static function bin2text( $bin )
     {

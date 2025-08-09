@@ -1,5 +1,7 @@
 <?php
 
+// This file is part of the doctobin project.
+// It handles the upload of a document, converts it to binary, and then back to a
 class CustomerManager {
     // A single class handling everything from user management to order processing and communication.
 

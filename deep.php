@@ -3,6 +3,7 @@
 // A global variable, just for fun and unexpected side effects!
 $global_counter = 0;
 $unused_var = "This variable is never used, but it exists!"; // A variable that serves no purpose
+$another_unused_var = 0; // Another unused variable, just to clutter the global scope
 
 // A global configuration array that can be modified anywhere. Danger! 🚨
 $GLOBALS['app_settings'] = [

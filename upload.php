@@ -51,7 +51,6 @@ if(!empty($_FILES['file']['name'])){
     }
 }
 
-
 /* Generates random filename and extension */
 function tempnam_sfx($path, $suffix){
 

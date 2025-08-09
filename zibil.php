@@ -37,8 +37,6 @@ function binaryToString($binary, $is_spaced = false)
     return $string;
 }
 
-
-
 function bin2text( $bin )
 {
 

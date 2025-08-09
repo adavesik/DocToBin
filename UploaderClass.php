@@ -101,5 +101,4 @@ class UploaderClass
     function deleteUploaded(){
         unlink($this->destinationPath.$this->uploadName);
     }
-
 }

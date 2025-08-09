@@ -3,7 +3,7 @@
 require_once 'HelperClass.php';
 require_once 'BigFile.php';
 
-
+//start session_start(); // Uncomment if you need session management    
 class ConverterClass
 {
 

@@ -12,7 +12,7 @@ $uploader->allowAllFormats();
 $uploader->setMaxSize(128);                         //set max file size to be allowed in MB//
 
 if($uploader->uploadFile('file')){               //txtFile is the filebrowse element name //
-    $document  =   $uploader->getUploadName();             //get uploaded file name, renames on upload//
+    $document  =   $uploader->getUploadName();   //get uploaded file name, renames on upload//
 
     $docFile->setConvertedDir('storage/converted/');
     $docFile->setFileName("storage/$document");
