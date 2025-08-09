@@ -33,6 +33,58 @@ class HelperClass
 
     }
 
+    public static function getBinaryCharCount($filename){
+
+        $string = file_get_contents($filename);
+
+        $characters = HelperClass::str_split_unicode($string, 1);
+        return sizeof($characters);
+    }
+
+    ///TODO: Implement this function to fill up binary data
+    public static function fillUpBinaryData($filename){
+        // This function should read the file and fill up binary data as needed.
+        // For now, it is just a placeholder.
+        // You can implement the logic to read the file and process it as per your requirements.
+        // For example, you might want to read the file in chunks and convert it to binary
+        // or perform some other operations based on your application's needs.
+        // This is a stub function and does not perform any operations currently.
+        // You can remove this comment and implement the logic as needed.
+        // Example:
+        // $fileContent = file_get_contents($filename);
+        // $binaryData = self::stringToBinary($fileContent);
+        // return $binaryData;
+        // Note: Make sure to handle any exceptions or errors that may occur during file operations.
+        // This is just a placeholder function and does not perform any operations currently.
+        // You can remove this comment and implement the logic as needed.
+        // Example:
+        // $fileContent = file_get_contents($filename);
+        // $binaryData = self::stringToBinary($fileContent);
+        // return $binaryData;
+        // Note: Make sure to handle any exceptions or errors that may occur during file operations.
+        // This is just a placeholder function and does not perform any operations currently.
+        // You can remove this comment and implement the logic as needed.
+        // Example:
+        // $fileContent = file_get_contents($filename);
+        // $binaryData = self::stringToBinary($fileContent);
+        // return $binaryData;
+        // Note: Make sure to handle any exceptions or errors that may occur during file operations.
+        // This is just a placeholder function and does not perform any operations currently.
+        // You can remove this comment and implement the logic as needed.
+        // Example:
+        // $fileContent = file_get_contents($filename);
+        // $binaryData = self::stringToBinary($fileContent);
+        // return $binaryData;
+        // Note: Make sure to handle any exceptions or errors that may occur during file operations.
+        // This is just a placeholder function and does not perform any operations currently.
+        // You can remove this comment and implement the logic as needed.
+        // Example:
+        // $fileContent = file_get_contents($filename);
+        // $binaryData = self::stringToBinary($fileContent);
+        // return $binaryData;
+        // Note: Make sure to handle any exceptions or errors that may occur during file operations.
+        // This is just a placeholder function and does not perform any operations currently.               
+    }
 
     /**
      * @param $string

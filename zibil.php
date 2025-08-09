@@ -14,7 +14,7 @@ function stringToBinary($string)
     return implode(' ', $binary);
 }
 
-
+// Just a function to convert binary to string
 function binaryToString($binary, $is_spaced = false)
 {
     if(!$is_spaced){

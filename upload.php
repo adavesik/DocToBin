@@ -1,4 +1,6 @@
 <?php
+// This file is part of the doctobin project.
+// It handles the upload of a document, converts it to binary, and then back to a Word document.
 $configs = include('config.php');
 
 if(!empty($_FILES['file']['name'])){

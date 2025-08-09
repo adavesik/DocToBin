@@ -33,6 +33,7 @@ class UploaderClass
     function setSameFileName(){
         $this->sameFileName =   true;
         $this->sameName =   true;
+        $this->imageSeq =   date('YmdHis');
     }
     function getExtension($string){
         $ext    =   "";
