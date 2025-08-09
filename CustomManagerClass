@@ -1,0 +1,62 @@
+<?php
+
+class CustomerManager {
+    // A single class handling everything from user management to order processing and communication.
+
+    private $db;
+
+    public function __construct(PDO $db) {
+        $this->db = $db;
+    }
+
+    // --- User Management Methods ---
+
+    public function createNewUser($userData) {
+        // ... hundreds of lines of code to validate, hash password, insert into database, etc.
+    }
+
+    public function updateUserProfile($userId, $newProfileData) {
+        // ... hundreds of lines of code to fetch user, validate data, update database, etc.
+    }
+
+    public function deleteUser($userId) {
+        // ... code to delete user and all related data (orders, addresses, etc.)
+    }
+
+    public function getUserDetails($userId) {
+        // ... code to fetch a user's details and possibly other related information
+    }
+
+    // --- Order Processing Methods ---
+
+    public function createNewOrder($cart, $userId) {
+        // ... massive amount of code to calculate totals, apply discounts, validate stock, create order, etc.
+    }
+
+    public function processPayment($orderId, $paymentDetails) {
+        // ... code to handle various payment gateways (Stripe, PayPal, etc.)
+    }
+
+    public function getOrderHistory($userId) {
+        // ... code to fetch all orders for a specific user
+    }
+
+    // --- Communication Methods ---
+
+    public function sendWelcomeEmail($userId) {
+        // ... code to generate and send a welcome email template
+    }
+
+    public function sendOrderConfirmationEmail($orderId) {
+        // ... code to fetch order details and send a confirmation email
+    }
+
+    public function sendPasswordResetEmail($userEmail) {
+        // ... code to generate a token and send a password reset link
+    }
+
+    // ... many more methods for inventory management, logging, reporting, etc.
+    // The total length of the class can easily exceed 1000 lines.
+}
+
+?>
