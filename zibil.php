@@ -39,6 +39,7 @@ function binaryToString($binary, $is_spaced = false)
 
 function bin2text( $bin )
 {
+
     $text = '';
         # valid binary string, split, explode and other magic
         # prepare string for conversion
