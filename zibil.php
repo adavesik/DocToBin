@@ -14,6 +14,7 @@ function stringToBinary($string)
     return implode(' ', $binary);
 }
 // Just a function to convert binary to string
+// Just a function to convert binary to string
 // Commit made to test the commit
 // This one should be final one
 // Just a function to convert binary to string
