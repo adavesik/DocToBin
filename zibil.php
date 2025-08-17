@@ -13,6 +13,7 @@ function stringToBinary($string)
 
     return implode(' ', $binary);
 }
+// Risky commit
 // Just a function to convert binary to string
 // Just a function to convert binary to string
 // Commit made to test the commit
