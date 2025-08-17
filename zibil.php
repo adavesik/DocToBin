@@ -29,6 +29,7 @@ function binaryToString($binary, $is_spaced = false)
         $binaries = explode(' ', $binary);
     }
 
+    //Another commit made
     $string = null;
     foreach ($binaries as $bin) {
         $string .= pack('H*', base_convert($bin, 2, 16));
