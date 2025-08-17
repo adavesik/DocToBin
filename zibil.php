@@ -1,6 +1,6 @@
 <?php
 require_once "BigFile.php";
-
+// This commit shoul dwork
 function stringToBinary($string)
 {
     $characters = str_split($string);
