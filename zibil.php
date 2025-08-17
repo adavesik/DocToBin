@@ -17,6 +17,7 @@ function stringToBinary($string)
 // Just a function to convert binary to string
 function binaryToString($binary, $is_spaced = false)
 {
+    //nope
     if(!$is_spaced){
 
         $un_trimmed = chunk_split($binary, 8, ' ');
