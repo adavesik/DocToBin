@@ -16,6 +16,7 @@ function stringToBinary($string)
 // Commit made to test the commit
 // This one should be final one
 // Just a function to convert binary to string
+// I have tiered 
 function binaryToString($binary, $is_spaced = false)
 {
     //nope
