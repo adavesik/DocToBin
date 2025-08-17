@@ -13,6 +13,7 @@ function stringToBinary($string)
 
     return implode(' ', $binary);
 }
+// I really hope this works
 // Risky commit
 // Just a function to convert binary to string
 // Just a function to convert binary to string
